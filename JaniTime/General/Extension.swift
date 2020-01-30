@@ -13,7 +13,7 @@ import Lottie
 var isLoaderAnimationRunning = false
 var loaderAnimationProgressLabel = UILabel()
 var linkaOperationDuration: CGFloat?
-var animationView: LOTAnimationView?
+var animationView: AnimationView?
 
 
 // MARK: Textfeild Underline and Placeholder Color
@@ -533,24 +533,27 @@ extension UIView {
                         }
                     }
                     
-                    animationView = LOTAnimationView(name: lotAnimationDataFile)
+                    animationView = AnimationView(name: lotAnimationDataFile)
                     Logger.print(lotAnimationDataFile)
                     animationView?.frame.size = CGSize(width: animationView!.frame.size.width * animationViewSizeMultiplier, height: animationView!.frame.size.height * animationViewSizeMultiplier)
                     
                     
                     if playOnce {
-                        animationView?.loopAnimation = false
-                        if dismissAfterAnimation {
-                            DispatchQueue.main.asyncAfter(deadline: (.now() + Double((animationView?.animationDuration)!)), execute: {
-                                self.hideLoaderAnimation()
-                            })
-                        }
+                        // Dont know if we need play here or just a stop
+                        animationView?.play()
+//                        if dismissAfterAnimation {
+//                            DispatchQueue.main.asyncAfter(deadline: (.now() + Double((animationView?.animationDuration)!)), execute: {
+//                                self.hideLoaderAnimation()
+//                            })
+//                        }
+                        animationView?.stop()
                     } else {
-                        animationView?.loopAnimation = true
+//                        animationView?.loopAnimation = true
+                        animationView?.play();
                     }
                     animationView?.animationSpeed = animationSpeed
-                    animationDuration = (animationView?.animationDuration)!
-                    animationView?.animationProgress = animationProgress
+//                    animationDuration = (animationView?.animationDuration)!
+//                    animationView?.animationProgress = animationProgress
                     animationView?.play()
                     
                     //Setting up background view

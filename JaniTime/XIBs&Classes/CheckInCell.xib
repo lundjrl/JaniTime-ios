@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,20 +25,22 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="184.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wavy_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="Ja4-MV-jTC">
-                        <rect key="frame" x="0.0" y="68.5" width="320" height="116"/>
+                    <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="wavy_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="Ja4-MV-jTC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="185"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="52f-bl-6Xo">
-                        <rect key="frame" x="115" y="18" width="90.5" height="12"/>
+                        <rect key="frame" x="114.5" y="18" width="91" height="12.5"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="check_in_clock" translatesAutoresizingMaskIntoConstraints="NO" id="oeo-8S-2qk">
-                                <rect key="frame" x="0.0" y="0.0" width="10" height="12"/>
+                                <rect key="frame" x="0.0" y="0.0" width="10.5" height="12.5"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Checked In" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rLP-g2-3WD">
-                                <rect key="frame" x="12" y="0.0" width="78.5" height="12"/>
+                                <rect key="frame" x="12.5" y="0.0" width="78.5" height="12.5"/>
                                 <fontDescription key="fontDescription" name="SFUIDisplay-Bold" family="SF UI Display" pointSize="15"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -49,21 +49,22 @@
                     </stackView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="00:00:00" textAlignment="justified" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7F2-Ry-sHn">
                         <rect key="frame" x="58" y="46" width="204" height="60"/>
+                        <color key="tintColor" red="0.35316482189999998" green="0.6328964829" blue="0.92936438320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <fontDescription key="fontDescription" name="SFUIDisplay-Light" family="SF UI Display" pointSize="50"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="center" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="nSY-SQ-Y1n">
-                        <rect key="frame" x="86" y="138.5" width="148.5" height="38"/>
+                        <rect key="frame" x="85.5" y="138.5" width="149" height="38"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="equalCentering" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="vSD-sh-YQZ">
-                                <rect key="frame" x="0.0" y="0.0" width="148.5" height="17"/>
+                                <rect key="frame" x="0.0" y="0.0" width="149" height="17"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="check_in_calendar" translatesAutoresizingMaskIntoConstraints="NO" id="Sgy-G5-7Hj">
-                                        <rect key="frame" x="0.0" y="0.0" width="12" height="17"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="12.5" height="17"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" ambiguous="YES" text="Monday, 18-02-2019" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRJ-pO-xQN">
-                                        <rect key="frame" x="16" y="0.0" width="132.5" height="17"/>
+                                        <rect key="frame" x="16.5" y="0.0" width="132.5" height="17"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="14"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
@@ -71,10 +72,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="center" ambiguous="YES" distribution="equalCentering" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qP0-qb-KwS">
-                                <rect key="frame" x="40" y="21" width="68.5" height="17"/>
+                                <rect key="frame" x="40.5" y="21" width="68.5" height="17"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="check_in_location" translatesAutoresizingMaskIntoConstraints="NO" id="ufA-ie-kss">
-                                        <rect key="frame" x="0.0" y="2.5" width="10" height="12"/>
+                                        <rect key="frame" x="0.0" y="2.5" width="10" height="12.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="10" id="Z3B-1b-HKV"/>
                                         </constraints>
@@ -111,7 +112,8 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.015686274509803921" green="0.47843137254901957" blue="0.85490196078431369" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.26478213473918166" green="0.59386281685317843" blue="0.91739371827411165" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <color key="tintColor" red="0.35316482189999998" green="0.6328964829" blue="0.92936438320000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="O31-o0-X44" firstAttribute="top" secondItem="7F2-Ry-sHn" secondAttribute="bottom" constant="2" id="FSE-aO-1iX"/>
                     <constraint firstItem="nSY-SQ-Y1n" firstAttribute="centerX" secondItem="7F2-Ry-sHn" secondAttribute="centerX" id="GNj-Lg-n5O"/>
@@ -136,7 +138,7 @@
                 <outlet property="infoView" destination="O31-o0-X44" id="gHJ-1v-PYo"/>
                 <outlet property="locationLabel" destination="G2K-ha-VQf" id="uHc-n9-lh9"/>
             </connections>
-            <point key="canvasLocation" x="137.59999999999999" y="194.30284857571215"/>
+            <point key="canvasLocation" x="137.59999999999999" y="193.85307346326837"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -85,13 +85,13 @@ class DataEntryController: UIViewController, UITableViewDelegate, UITableViewDat
     
         typePickerView!.allowMultipleSelection = false
         typePickerView!.needFooterView = false
-        typePickerView!.headerBackgroundColor = UIColor(hex: "0882d8")
+        typePickerView!.headerBackgroundColor = UIColor(hex: "2c99f2")
         typePickerView!.delegate = self
         typePickerView!.dataSource = self
         
         managerPicker!.allowMultipleSelection = false
         managerPicker!.needFooterView = false
-        managerPicker!.headerBackgroundColor = UIColor(hex: "0882d8")
+        managerPicker!.headerBackgroundColor = UIColor(hex: "2c99f2")
         managerPicker!.delegate = self
         managerPicker!.dataSource = self
         

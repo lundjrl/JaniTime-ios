@@ -19,7 +19,7 @@ var currentLocation: CLLocation? = nil
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DataEntryDelegate,CLLocationManagerDelegate {
 
     @IBOutlet weak var homeTable: UITableView!
-    
+        
     var isTimerRunning = false
     var checkedInTime = Date()
     
@@ -28,6 +28,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var saveButton: UIButton!
     struct checkInCheckOutImage {
+
         static let checkInButtonImage = UIImage(named: "checkin_button")
         static let checkOutButtonImage = UIImage(named: "checkout_button")
         static let forcedCheckOutButtonImage = UIImage(named: "checkout_forced_button")
@@ -54,6 +55,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var clearButton: UIButton!
+    
     
     var dispatchedLocalNotification = false
     var dispatchedWarningNotification = false
@@ -166,7 +168,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let headerTitle = UILabel(frame: CGRect(x: 16, y: 0, width: homeTable.frame.size.width, height: 40))
             headerTitle.font = UIFont(name: "SFUIDisplay-Bold", size: 21.0)
             headerTitle.text = "History"
-            headerTitle.textColor = UIColor(hex: "0882d8")
+            headerTitle.textColor = UIColor(hex: "2c99f2")
             headerView.addSubview(headerTitle)
             return headerView
         } else {
@@ -281,8 +283,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if JaniTime.parsingData.clockInData != nil, JaniTime.parsingData.clockInData!.building_location != nil {
                         let circleCenter = JaniTime.parsingData.clockInData!.building_location!
                         let circ = GMSCircle(position: circleCenter.coordinate, radius: JaniTime.parsingData.clockInData!.building_radius)
-                        circ.fillColor = UIColor(hex: "0882d8").withAlphaComponent(0.2)
-                        circ.strokeColor = UIColor(hex: "0882d8").withAlphaComponent(0.8)
+                        circ.fillColor = UIColor(hex: "2c99f2").withAlphaComponent(0.2)
+                        circ.strokeColor = UIColor(hex: "2c99f2").withAlphaComponent(0.8)
                         circ.strokeWidth = 2
                         circ.map = fullMapCell.fullMapView
                         
@@ -358,6 +360,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let timerCell = homeTable.cellForRow(at: IndexPath(row: 0, section: 0)) as? CheckInCell {
             let (hours, minutes, seconds, value) = JaniTime().timeAgoSinceDate(date: checkedInTime as NSDate, numericDates: false)
             Logger.print(value ?? "")
+            print("hello there")
             if isTimerRunning {
                 timerCell.checkInTimeDisplay.text = String(format: "%02d:%02d:%02d", hours ?? 00, minutes ?? 00, seconds ?? 00)
                 if currentLocation != nil && shouldUpdateLocation {
@@ -474,6 +477,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.handleTimer(timerStart: true)
                 self.dispatchedLocalNotification = false
                 self.showAlert(message: "You are clocked-in", title: "Success")
+                self.tabBarController?.tabBar.isHidden = true
                 JaniTime.user.hasAutoClockedOut = false
                 let _isUserInGeoFence = self.isUserInGeoFence()
                 if _isUserInGeoFence.0 != nil, !_isUserInGeoFence.0! {
@@ -518,6 +522,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.view.hideLoaderAnimation()
                 self.clockOut(isForced: isForced)
+                self.tabBarController?.tabBar.isHidden = false
             }
         } else {
             let params: [String : Any] = ["client_id":Int(JaniTime.user.client_id) ?? 0, "building_id": Int(JaniTime.user.building_id) ?? 0, "employee_id": Int(JaniTime.user.user_id) ?? 0, "action" : "clock-out", "latitude": currentLocation!.coordinate.latitude, "longitude": currentLocation!.coordinate.longitude, "is_forced" : isForced]
@@ -530,6 +535,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.switchingCount = 0
                     self.getPunchingHistory()
                     self.progressRing.isHidden = true
+                    self.tabBarController?.tabBar.isHidden = false
                 } else {
                     self.showAlert(message: message, title: "Oops")
                 }
