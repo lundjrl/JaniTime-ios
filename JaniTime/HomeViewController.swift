@@ -56,7 +56,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var clearButton: UIButton!
     
-    
     var dispatchedLocalNotification = false
     var dispatchedWarningNotification = false
     
@@ -72,17 +71,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearButton.isHidden = true
         let checkInNib = UINib(nibName: "CheckInCell", bundle: nil)
         let historyNib = UINib(nibName: "HistoryCell", bundle: nil)
         let checkInMapNib = UINib(nibName: "CheckInMapCell", bundle: nil)
         let checkedInFullMapNib = UINib(nibName: "CheckedInFullMapCell", bundle: nil)
-        let batterySaverNib = UINib(nibName: "BatterySaverCell", bundle: nil)
+//        let batterySaverNib = UINib(nibName: "BatterySaverCell", bundle: nil)
         
         homeTable.register(checkInNib, forCellReuseIdentifier: "CheckInCell")
         homeTable.register(historyNib, forCellReuseIdentifier: "HistoryCell")
         homeTable.register(checkInMapNib, forCellReuseIdentifier: "CheckInMapCell")
         homeTable.register(checkedInFullMapNib, forCellReuseIdentifier: "CheckedInFullMapCell")
-        homeTable.register(batterySaverNib, forCellReuseIdentifier: "BatterySaverCell")
+//        homeTable.register(batterySaverNib, forCellReuseIdentifier: "BatterySaverCell")
         setCheckInCheckOutButton()
         
         locationManager = CLLocationManager()
@@ -110,6 +110,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        homeTable.rowHeight = UITableView.automaticDimension
         
         // Do any additional setup after loading the view, typically from a nib.
+        if (isTimerRunning){
+            self.tabBarController?.tabBar.isHidden = true
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -268,10 +271,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             return UITableViewCell()
         } else if isTimerRunning {
             if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
-                if let fullBatteryCell = tableView.dequeueReusableCell(withIdentifier: "BatterySaverCell") as? BatterySaverCell {
-                    return fullBatteryCell
+//                if let fullBatteryCell = tableView.dequeueReusableCell(withIdentifier: "BatterySaverCell") as? BatterySaverCell {
+//                    return fullBatteryCell
                 }
-            } else if let fullMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckedInFullMapCell") as? CheckedInFullMapCell {
+//            } else
+                if let fullMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckedInFullMapCell") as? CheckedInFullMapCell {
                 if currentLocation != nil {
                     let camera = GMSCameraPosition(target: currentLocation!.coordinate, zoom: 20)
                     let marker = GMSMarker()
@@ -338,16 +342,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0 {
-            return 185.0
-        } else {
-            if isTimerRunning {
-                if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
-                    return 320
-                }
-                return self.view.frame.size.height - (185.0 + 80)
+            // If not clocked in
+            if ((self.tabBarController?.tabBar.isHidden)!){
+                return 185.0
+
+            }else{
+
+                return 350
             }
-            
-            return 100.0
+        } else {
+            // If clocked in, constrain each section to these heights
+        
+            if isTimerRunning {
+                self.tabBarController?.tabBar.isHidden = true
+                return self.view.frame.size.height - (185.0 + 80) 
+
+            }else{
+                return 100.0
+            }
         }
     }
     var changedLocation = false
@@ -360,7 +372,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let timerCell = homeTable.cellForRow(at: IndexPath(row: 0, section: 0)) as? CheckInCell {
             let (hours, minutes, seconds, value) = JaniTime().timeAgoSinceDate(date: checkedInTime as NSDate, numericDates: false)
             Logger.print(value ?? "")
-            print("hello there")
             if isTimerRunning {
                 timerCell.checkInTimeDisplay.text = String(format: "%02d:%02d:%02d", hours ?? 00, minutes ?? 00, seconds ?? 00)
                 if currentLocation != nil && shouldUpdateLocation {
@@ -428,12 +439,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             clearButton.isHidden = true
             self.scrollToFirstRow()
             checkedInTime = time
-            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
-                locationManager.stopUpdatingLocation()
-                isUpdatingLocation = false
-            } else {
+//            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
+//                locationManager.stopUpdatingLocation()
+//                isUpdatingLocation = false
+//            } else {
                 locationManager.startUpdatingLocation()
-            }
+//            }
         } else {
             saveButton.isHidden = false
             clearButton.isHidden = false

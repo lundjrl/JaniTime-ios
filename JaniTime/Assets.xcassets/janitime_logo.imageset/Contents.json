@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "janitime_logo.png",
+      "filename" : "Janitime Logo-2.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "janitime_logo@2x.png",
+      "filename" : "Janitime Logo.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "janitime_logo@3x.png",
+      "filename" : "Janitime Logo-1.png",
       "scale" : "3x"
     }
   ],
