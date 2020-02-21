@@ -47,7 +47,9 @@ class Constants {
     
     struct urls {
 //        static let developmentServerUrl: String = "http://34.219.166.65:3000"
-        static let productionServerUrl: String = "http://34.219.166.65"
+//        static let productionServerUrl: String = "http://34.219.166.65"
+        static let productionServerUrl: String = "http://18.222.126.242/janitime-backend/"
+
         static let developmentServerUrl: String = productionServerUrl
 
     }
