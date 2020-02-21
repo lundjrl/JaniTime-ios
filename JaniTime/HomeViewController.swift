@@ -832,7 +832,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func clearAlert() {
-        let clearAlert = UIAlertController(title: "Logout", message: "Are you sure you want to log out of the app?", preferredStyle: .alert)
+        let clearAlert = UIAlertController(title: "Logout", message: "Are you sure you want to log out?", preferredStyle: .alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) in
             self.clearConfirmed()
