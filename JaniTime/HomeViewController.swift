@@ -85,12 +85,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        homeTable.register(batterySaverNib, forCellReuseIdentifier: "BatterySaverCell")
         setCheckInCheckOutButton()
         
-        locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        // Already defined
+//        locationManager = CLLocationManager()
+        locationManager.requestAlwaysAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
+//        locationManager.allowsBackgroundLocationUpdates = true
+
+//        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = 10
         locationManager.delegate = self
-        locationManager.requestAlwaysAuthorization()
-        
+                
 //        getCompanyList()
 
         getPunchingHistory()
@@ -202,7 +209,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             if !isTimerRunning {
                 if let checkInMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckInMapCell") as? CheckInMapCell {
                     if currentLocation != nil {
-                        let camera = GMSCameraPosition(target: currentLocation!.coordinate, zoom: 12)
+                        let camera = GMSCameraPosition(target: currentLocation!.coordinate, zoom: 18) //12
                         let marker = GMSMarker()
                         checkInMapCell.mapView.clear()
                         marker.map = nil
@@ -277,7 +284,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            } else
                 if let fullMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckedInFullMapCell") as? CheckedInFullMapCell {
                 if currentLocation != nil {
-                    let camera = GMSCameraPosition(target: currentLocation!.coordinate, zoom: 20)
+                    let camera = GMSCameraPosition(target: currentLocation!.coordinate, zoom: 18) //20
                     let marker = GMSMarker()
                     fullMapCell.fullMapView.clear()
                     marker.map = nil
@@ -582,6 +589,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //    var updateCount = 0
     var isFirstCheck = true
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("in here")
         let location: CLLocation = locations.last!
         isUpdatingLocation = true
         if currentLocation != nil {
@@ -654,6 +662,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedAlways {
+            print("please work")
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.distanceFilter = 10
             locationManager.startUpdatingLocation()

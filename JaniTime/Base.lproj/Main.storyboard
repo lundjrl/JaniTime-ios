@@ -80,15 +80,27 @@
                                     <action selector="doneAct:" destination="tND-hh-Kum" eventType="touchUpInside" id="r4H-yy-wHY"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="text" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oe6-no-riy">
+                                <rect key="frame" x="10" y="597" width="355" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="kN5-DA-4oH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="oe6-no-riy" firstAttribute="centerX" secondItem="V3Q-iC-19y" secondAttribute="centerX" id="0dH-AK-Pbu"/>
                             <constraint firstItem="ORb-cz-G8f" firstAttribute="centerX" secondItem="LsA-ue-ALk" secondAttribute="centerX" id="4B0-2N-gNg"/>
                             <constraint firstItem="WLC-PM-Vyl" firstAttribute="centerX" secondItem="vt0-eB-zrV" secondAttribute="centerX" id="6bj-ng-W7Q"/>
                             <constraint firstItem="f4q-Fj-ykK" firstAttribute="centerX" secondItem="V3Q-iC-19y" secondAttribute="centerX" id="ECS-k1-RIU"/>
+                            <constraint firstItem="oe6-no-riy" firstAttribute="leading" secondItem="hqc-3m-m2m" secondAttribute="leading" constant="10" id="Pxy-sr-War"/>
                             <constraint firstItem="RfB-is-wJ1" firstAttribute="top" secondItem="hqc-3m-m2m" secondAttribute="top" constant="30" id="Q3X-Q4-bvg"/>
                             <constraint firstItem="WLC-PM-Vyl" firstAttribute="top" secondItem="RfB-is-wJ1" secondAttribute="bottom" constant="85" id="Ren-lq-1hY"/>
                             <constraint firstItem="ORb-cz-G8f" firstAttribute="top" secondItem="LsA-ue-ALk" secondAttribute="bottom" constant="32" id="TTJ-x4-HWe"/>
+                            <constraint firstItem="hqc-3m-m2m" firstAttribute="bottom" secondItem="oe6-no-riy" secondAttribute="bottom" constant="20" id="V3S-kE-LcQ"/>
                             <constraint firstItem="WLC-PM-Vyl" firstAttribute="height" secondItem="LsA-ue-ALk" secondAttribute="height" id="aDK-Vg-sBn"/>
                             <constraint firstItem="f4q-Fj-ykK" firstAttribute="top" secondItem="ORb-cz-G8f" secondAttribute="bottom" constant="32" id="dcV-km-Y49"/>
                             <constraint firstItem="WLC-PM-Vyl" firstAttribute="leading" secondItem="hqc-3m-m2m" secondAttribute="leading" constant="16" id="gGo-De-ZkF"/>
@@ -97,6 +109,7 @@
                             <constraint firstItem="WLC-PM-Vyl" firstAttribute="leading" secondItem="LsA-ue-ALk" secondAttribute="leading" id="oKW-UT-QLT"/>
                             <constraint firstItem="vt0-eB-zrV" firstAttribute="trailing" secondItem="hqc-3m-m2m" secondAttribute="trailing" id="qDh-Pt-b08"/>
                             <constraint firstItem="RfB-is-wJ1" firstAttribute="leading" secondItem="hqc-3m-m2m" secondAttribute="leading" id="t59-FO-QUj"/>
+                            <constraint firstItem="hqc-3m-m2m" firstAttribute="trailing" secondItem="oe6-no-riy" secondAttribute="trailing" constant="10" id="uZ8-6q-pgj"/>
                             <constraint firstItem="RfB-is-wJ1" firstAttribute="trailing" secondItem="hqc-3m-m2m" secondAttribute="trailing" id="utE-rC-Rkd"/>
                             <constraint firstItem="LsA-ue-ALk" firstAttribute="top" secondItem="WLC-PM-Vyl" secondAttribute="bottom" constant="40" id="wN4-u6-TGS"/>
                             <constraint firstItem="vt0-eB-zrV" firstAttribute="height" secondItem="V3Q-iC-19y" secondAttribute="height" multiplier="1/4" id="wkP-HJ-BVu"/>
@@ -107,6 +120,7 @@
                         <outlet property="companyCodeField" destination="WLC-PM-Vyl" id="yFQ-KQ-sIO"/>
                         <outlet property="employeeIdField" destination="LsA-ue-ALk" id="oUv-or-dRg"/>
                         <outlet property="pageTitle" destination="O8D-lc-0CL" id="h8E-9a-4qg"/>
+                        <outlet property="privacyLabel" destination="oe6-no-riy" id="tB1-B9-n8i"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1JW-0w-Kh2" userLabel="First Responder" sceneMemberID="firstResponder"/>

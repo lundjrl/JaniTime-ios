@@ -26,11 +26,13 @@
 		<true/>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Please give us permission to read your location so that we can check you In and Out of buidings</string>
+	<string>Please give us permission to read your location so that we can check you in and out of buidings</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Please give us permission to read your location so that we can check you In and Out of buidings</string>
+	<string>Please give us permission to read your location so that we can check you in and out of buidings</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Please give us permission to read your location so that we can check you in and out of buidings</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Please give us permission to read your location so that we can check you In and Out of buidings</string>
+	<string>Please give us permission to read your location so that we can check you in and out of buidings</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SF-UI-Display-Black</string>
@@ -79,5 +81,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

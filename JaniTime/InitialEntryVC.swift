@@ -15,6 +15,8 @@ class InitialEntryVC: UIViewController, ResponseProtocol {
     
     @IBOutlet weak var employeeIdField: UITextField!
     
+    @IBOutlet weak var privacyLabel: UILabel!
+    
     let api = API()
     
     var animationSize: CGFloat = 0.1
@@ -22,6 +24,8 @@ class InitialEntryVC: UIViewController, ResponseProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         employeeIdField.delegate = self
+        privacyLabel.text = "Janitime tracks your location in the background *only* while you are clocked in."
+        privacyLabel.lineBreakMode = .byWordWrapping
         // Do any additional setup after loading the view.
     }
     
@@ -115,7 +119,7 @@ class InitialEntryVC: UIViewController, ResponseProtocol {
     }
     
     @IBAction func getCodeAct(_ sender: Any) {
-        guard let url = URL(string: "http://janitime.com/main/") else { return }
+        guard let url = URL(string: "https://app.janitime.com/login.php") else { return }
         UIApplication.shared.open(url)
     }
     /*
