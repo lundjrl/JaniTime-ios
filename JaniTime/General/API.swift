@@ -62,6 +62,7 @@ class API {
         Alamofire.request(url, method: APIMethod, parameters: params, encoding: (urlEncoding ? URLEncoding.default : JSONEncoding.default), headers: headers).responseJSON
             { response in
                 Logger.print(response)
+                print("response above")
                 //IF SESSION EXPIRED, LOGOUT THE USER
                 
                 if response.response?.statusCode != nil {
@@ -111,13 +112,17 @@ class API {
         alamofireCall(url: apiUrl, params: apiParameters, headers: headers, APIMethod: APIMethod, urlEncoding: withUrlEncoding) { (response, status) in
             
             //IF DATA IS AVAILABLE
-            print(response)
+            print("this is the response \(response)")
             
             switch response.result {
             case .success:
                 
                 if let json = response.result.value as? [String: AnyObject] {
                     if let data = json["data"] {
+                       
+                        print("this is the auto clock \(data["employee_auto_clock"])")
+                        print("this is data \(data)")
+                      
                         var message = Constants.Messages.INCOMPLETE_DATA_FROM_SERVER
                         if let val = data[Constants.Keys.MESSAGE] as? String {
                             message = val
@@ -147,7 +152,19 @@ class API {
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
                                 if status == Constants.StatusCodes.success {
                                     if let data = json["data"] as? [String : AnyObject] {
-                                        JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: data)
+                                        var dataObj = data
+                                      print("parsing data \(data)")
+                                      
+                                       print("data here \(data)")
+                                    
+                                        dataObj["battery_saver"] = 1 as AnyObject
+                                        dataObj["employee_auto_clock"] = 0 as AnyObject
+                                        
+                                        dataObj["employee_tracking"] = 0 as AnyObject
+                                        JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: dataObj) //data
+                                        
+                                            print("data obj here \(dataObj)")
+
                                     }
                                     CompletionHandler(message, true)
                                     return
@@ -159,12 +176,15 @@ class API {
                         case .clock_current:
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
                                 Logger.print("Status is \(status) Response is \(json["data"]) for response \(response.request)")
+                                print("^^ is what you want")
                                 if let _data = json["data"] as? [String : AnyObject] {
                                     if let _employee_auto_clock = _data["employee_auto_clock"] as? Bool {
-                                        JaniTime.user.employeeAutoClockOut = _employee_auto_clock
+//                                        JaniTime.user.employeeAutoClockOut = _employee_auto_clock
+                                        JaniTime.user.employeeAutoClockOut = false
                                     }
                                     if let _employee_tracking = _data["employee_tracking"] as? Bool {
-                                        JaniTime.user.employeeTracking = _employee_tracking
+//                                        JaniTime.user.employeeTracking = _employee_tracking
+                                        JaniTime.user.employeeTracking = false
                                     }
                                     if let _tracking_interval = _data["tracking_interval"] as? String {
                                         JaniTime.user.trackingInterval = Int(_tracking_interval)
@@ -175,7 +195,12 @@ class API {
                                 }
                                 if status == Constants.StatusCodes.success {
                                     if let data = json["data"] as? [String : AnyObject] {
-                                        JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: data)
+                                        var dataObj = data
+                                        dataObj["battery_saver"] = 1 as AnyObject
+                                        dataObj["employee_tracking"] = 0 as AnyObject
+                                        dataObj["employee_auto_clock"] = 0 as AnyObject
+                                        
+                                        JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: dataObj)//data
                                     }
                                     CompletionHandler(message, true)
                                     return

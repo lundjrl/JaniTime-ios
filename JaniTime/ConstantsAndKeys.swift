@@ -46,8 +46,11 @@ class Constants {
     }
     
     struct urls {
+        // Old API stuff
 //        static let developmentServerUrl: String = "http://34.219.166.65:3000"
 //        static let productionServerUrl: String = "http://34.219.166.65"
+        
+        // New AWS API stuff
         static let productionServerUrl: String = "http://18.222.126.242/janitime-backend/"
 
         static let developmentServerUrl: String = productionServerUrl
@@ -55,10 +58,10 @@ class Constants {
     }
     
     struct Messages {
-        static let UNKNOWN_ERROR_OCCURED = "Oops, something happened. Please try again after sometime.."
+        static let UNKNOWN_ERROR_OCCURED = "Oops, something happened. Please try again later..."
         static let ERROR_ALERT_TITLE_GENERAL = "Oops"
         static let SUCCESS_ALERT_TITLE_GENERAL = "Success"
-        static let INCOMPLETE_DATA_FROM_SERVER = "Oops, something went wrong. Please try again after sometime.."
+        static let INCOMPLETE_DATA_FROM_SERVER = "Oops, something went wrong. Please try again later..."
         static let OTP_INCOMPLETE_DATA_TITLE = "Confirmation Code Verification"
         static let OTP_INCOMPLETE_DATA_DESCRIPTION = "\nPlease enter all 4 digits to verify the confirmation code\n"
         static let SESSION_EXPIRED = "Please login to continue.."

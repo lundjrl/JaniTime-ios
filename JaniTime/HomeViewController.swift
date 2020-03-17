@@ -16,7 +16,7 @@ import UICircularProgressRing
 var currentLocation: CLLocation? = nil
 
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DataEntryDelegate,CLLocationManagerDelegate {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DataEntryDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var homeTable: UITableView!
         
@@ -90,8 +90,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         locationManager.requestAlwaysAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
-        locationManager.allowsBackgroundLocationUpdates = true
-        locationManager.pausesLocationUpdatesAutomatically = false
+//        locationManager.allowsBackgroundLocationUpdates = true
+//        locationManager.pausesLocationUpdatesAutomatically = false
 //        locationManager.allowsBackgroundLocationUpdates = true
 
 //        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -249,22 +249,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     fullFormatter.dateFormat = "EEEE, dd-MM-yyyy"
                     let todayString = fullFormatter.string(from: today)
                     checkInCell.infoView.isHidden = false
-                    if JaniTime.user.employeeAutoClockOut {
-                        checkInCell.infoLabel.text = "Auto clockout ON"
-                    } else if JaniTime.user.employeeTracking {
-                        checkInCell.infoLabel.text = "Tracking ON"
-                        if JaniTime.user.trackingInterval != nil, JaniTime.user.trackingInterval! > 0 {
-                            if JaniTime.user.intervalDisplay != "" {
-                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.intervalDisplay))"
-                            } else {
-                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.trackingInterval)!s)"
-                            }
-                            
-                        }
-                    } else {
+                    
+                    //TODO: Add back once we get background location access.
+//                    if JaniTime.user.employeeAutoClockOut {
+//                        checkInCell.infoLabel.text = "Auto clockout ON"
+//                    } else if JaniTime.user.employeeTracking {
+//                        checkInCell.infoLabel.text = "Tracking ON"
+//                        if JaniTime.user.trackingInterval != nil, JaniTime.user.trackingInterval! > 0 {
+//                            if JaniTime.user.intervalDisplay != "" {
+//                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.intervalDisplay))"
+//                            } else {
+//                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.trackingInterval)!s)"
+//                            }
+//
+//                        }
+//                    } else {
                         checkInCell.infoView.isHidden = true
-                    }
+//                    }
                     checkInCell.dayDateLabel.text = todayString
+                   
 //                    checkInCell.infoLabel.text =
                     if JaniTime.parsingData.clockInData != nil {
                         checkInCell.locationLabel.text = JaniTime.parsingData.clockInData!.building_name
@@ -277,10 +280,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             return UITableViewCell()
         } else if isTimerRunning {
-            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
+//            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
 //                if let fullBatteryCell = tableView.dequeueReusableCell(withIdentifier: "BatterySaverCell") as? BatterySaverCell {
 //                    return fullBatteryCell
-                }
+//                }
 //            } else
                 if let fullMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckedInFullMapCell") as? CheckedInFullMapCell {
                 if currentLocation != nil {
@@ -642,7 +645,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if !_isUserInGeoFence.0! && !dispatchedWarningNotification && isTimerRunning {
                         
                         
-                        showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?")
+//                        showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?")
+                    showWarningNotification(title: "Warning", body: "You have left your building, forgot to clock out?")
                         
                         
                     } else if _isUserInGeoFence.0! {
@@ -661,23 +665,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        let alert = UIAlertController(title: "Allow Always Access", message: "We need to be tracking your location in the background in order to clock you in and out of buildings, please enable \"Always\" location in your settings. Thank you.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { action in
+                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                         return
+                     }
+                     if UIApplication.shared.canOpenURL(settingsUrl) {
+                         UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                             print("settings were opened")
+                             
+                         })
+                     }
+                 }))
+//                 alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+        
+        //TODO: We can't present this dialog or access any background location features
         if status == .authorizedAlways {
             print("please work")
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.distanceFilter = 10
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading()
-            locationManager.allowsBackgroundLocationUpdates = true
+//            locationManager.allowsBackgroundLocationUpdates = true
             locationManager.pausesLocationUpdatesAutomatically = false
+            self.present(alert, animated: true, completion: nil)
+            
         } else if status == .authorizedWhenInUse {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.distanceFilter = 10
             locationManager.requestAlwaysAuthorization()
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading()
+            self.present(alert, animated: true, completion: nil)
+            
         } else if status == .denied || status == .notDetermined {
             currentLocation = nil
             showLocationWarning()
+            self.present(alert, animated: true, completion: nil)
         }
     }
     @IBAction func savedButtonAct(_ sender: Any) {
@@ -742,13 +766,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            self.lastUpdatedTime = Date()
             
             if JaniTime.user.hasAutoClockedOut {
-                self.shouldUpdateLocation = false
+//                self.shouldUpdateLocation = false
+                self.shouldUpdateLocation = true
                 self.handleTimer(timerStart: false, time: Date())
-                if !self.dispatchedLocalNotification {
-                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
-                    self.dispatchedLocalNotification = true
-                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
-                }
+//                if !self.dispatchedLocalNotification {
+//                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
+//                    self.dispatchedLocalNotification = true
+//                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
+//                }
                 self.getPunchingHistory()
             }
             
