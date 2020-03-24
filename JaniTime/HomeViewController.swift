@@ -98,7 +98,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         locationManager.distanceFilter = 10
         locationManager.delegate = self
                 
-//        getCompanyList()
+//        getCompanyList() // uncommented
 
         getPunchingHistory()
         
@@ -251,21 +251,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     checkInCell.infoView.isHidden = false
                     
                     //TODO: Add back once we get background location access.
-//                    if JaniTime.user.employeeAutoClockOut {
-//                        checkInCell.infoLabel.text = "Auto clockout ON"
-//                    } else if JaniTime.user.employeeTracking {
-//                        checkInCell.infoLabel.text = "Tracking ON"
-//                        if JaniTime.user.trackingInterval != nil, JaniTime.user.trackingInterval! > 0 {
-//                            if JaniTime.user.intervalDisplay != "" {
-//                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.intervalDisplay))"
-//                            } else {
-//                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.trackingInterval)!s)"
-//                            }
-//
-//                        }
-//                    } else {
+                    if JaniTime.user.employeeAutoClockOut {
+                        checkInCell.infoLabel.text = "Auto clockout ON"
+                    } else if JaniTime.user.employeeTracking {
+                        checkInCell.infoLabel.text = "Tracking ON"
+                        if JaniTime.user.trackingInterval != nil, JaniTime.user.trackingInterval! > 0 {
+                            if JaniTime.user.intervalDisplay != "" {
+                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.intervalDisplay))"
+                            } else {
+                                checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.trackingInterval)!s)"
+                            }
+
+                        }
+                    } else { // end of add back
                         checkInCell.infoView.isHidden = true
-//                    }
+                    }
                     checkInCell.dayDateLabel.text = todayString
                    
 //                    checkInCell.infoLabel.text =
@@ -461,7 +461,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         saveButton.isHidden = true
         DispatchQueue.main.async {
-//            self.homeTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+//            self.homeTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic) // why was this uncommented
             self.homeTable.reloadData()
         }
         
@@ -645,7 +645,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if !_isUserInGeoFence.0! && !dispatchedWarningNotification && isTimerRunning {
                         
                         
-//                        showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?")
+                        showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?") // why was this commented?
                     showWarningNotification(title: "Warning", body: "You have left your building, forgot to clock out?")
                         
                         
@@ -769,23 +769,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //                self.shouldUpdateLocation = false
                 self.shouldUpdateLocation = true
                 self.handleTimer(timerStart: false, time: Date())
-//                if !self.dispatchedLocalNotification {
-//                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
-//                    self.dispatchedLocalNotification = true
-//                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
-//                }
+                if !self.dispatchedLocalNotification {
+                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
+                    self.dispatchedLocalNotification = true
+                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
+                }
                 self.getPunchingHistory()
             }
             
-//                else {
-//                self.handleTimer(timerStart: false, time: Date())
-//                if !self.dispatchedLocalNotification {
-//                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
-//                    self.dispatchedLocalNotification = true
-//                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
-//                }
-//                self.getPunchingHistory()
-//            }
+                else {
+                self.handleTimer(timerStart: false, time: Date())
+                if !self.dispatchedLocalNotification {
+                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
+                    self.dispatchedLocalNotification = true
+                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
+                }
+                self.getPunchingHistory()
+            }
         }
     }
     

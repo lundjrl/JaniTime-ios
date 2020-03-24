@@ -417,24 +417,15 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="42" translatesAutoresizingMaskIntoConstraints="NO" id="L77-2c-lY9">
-                                <rect key="frame" x="8" y="539" width="351" height="104"/>
+                                <rect key="frame" x="289" y="609" width="70" height="34"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0j-VM-6eH">
-                                        <rect key="frame" x="0.0" y="0.0" width="70" height="104"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="34"/>
                                         <state key="normal" title="CANCEL">
                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
                                             <action selector="cancelAct:" destination="ucE-ym-v1v" eventType="touchUpInside" id="Zji-FK-HPI"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="207-QB-icK">
-                                        <rect key="frame" x="112" y="0.0" width="239" height="104"/>
-                                        <state key="normal" title="DONE" backgroundImage="done_bg">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="doneAct:" destination="ucE-ym-v1v" eventType="touchUpInside" id="NvS-DR-Wvw"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -473,6 +464,15 @@
                                 <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="207-QB-icK">
+                                <rect key="frame" x="116" y="325" width="239" height="104"/>
+                                <state key="normal" title="DONE" backgroundImage="done_bg">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneAct:" destination="ucE-ym-v1v" eventType="touchUpInside" id="NvS-DR-Wvw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -482,9 +482,11 @@
                             <constraint firstItem="VsU-cH-CXf" firstAttribute="trailing" secondItem="L77-2c-lY9" secondAttribute="trailing" id="5dA-84-fuj"/>
                             <constraint firstItem="9Yh-zf-OgZ" firstAttribute="leading" secondItem="Vyd-Ys-alx" secondAttribute="leading" constant="8" id="5zP-ue-X1e"/>
                             <constraint firstItem="f1j-bq-a9h" firstAttribute="centerY" secondItem="9Yh-zf-OgZ" secondAttribute="centerY" id="6QP-m1-f8d"/>
+                            <constraint firstItem="207-QB-icK" firstAttribute="top" secondItem="f1j-bq-a9h" secondAttribute="bottom" constant="20" id="9Ox-OZ-F0E"/>
                             <constraint firstItem="Vyd-Ys-alx" firstAttribute="leading" secondItem="4sl-uc-ZGV" secondAttribute="leading" constant="16" id="K7h-Xf-Uyj"/>
                             <constraint firstItem="4sl-uc-ZGV" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="f1j-bq-a9h" secondAttribute="trailing" constant="16" id="QIM-PQ-DTM"/>
                             <constraint firstItem="SsG-L7-nsb" firstAttribute="leading" secondItem="4sl-uc-ZGV" secondAttribute="leading" id="R3M-9g-QYQ"/>
+                            <constraint firstItem="4sl-uc-ZGV" firstAttribute="trailing" secondItem="207-QB-icK" secondAttribute="trailing" constant="20" id="Tdc-6J-8fh"/>
                             <constraint firstItem="Vyd-Ys-alx" firstAttribute="top" secondItem="VsU-cH-CXf" secondAttribute="bottom" constant="8" id="WZ9-UD-NJE"/>
                             <constraint firstItem="YCG-cg-jds" firstAttribute="centerY" secondItem="68N-Tf-GZh" secondAttribute="centerY" id="Ypk-yk-8ut"/>
                             <constraint firstItem="9Yh-zf-OgZ" firstAttribute="top" secondItem="Vyd-Ys-alx" secondAttribute="bottom" constant="-8" id="kij-lU-aMj"/>
