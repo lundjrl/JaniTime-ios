@@ -92,13 +92,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         locationManager.startUpdatingLocation()
 //        locationManager.allowsBackgroundLocationUpdates = true
 //        locationManager.pausesLocationUpdatesAutomatically = false
-//        locationManager.allowsBackgroundLocationUpdates = true
 
 //        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.distanceFilter = 10
         locationManager.delegate = self
                 
-//        getCompanyList() // uncommented
+//        getCompanyList() // commented
 
         getPunchingHistory()
         
@@ -250,7 +249,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     let todayString = fullFormatter.string(from: today)
                     checkInCell.infoView.isHidden = false
                     
-                    //TODO: Add back once we get background location access.
+                    // Setting labels for clockin view based on mode
                     if JaniTime.user.employeeAutoClockOut {
                         checkInCell.infoLabel.text = "Auto clockout ON"
                     } else if JaniTime.user.employeeTracking {
@@ -461,7 +460,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         saveButton.isHidden = true
         DispatchQueue.main.async {
-//            self.homeTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic) // why was this uncommented
+//            self.homeTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic) // throws error while clocking in
             self.homeTable.reloadData()
         }
         
@@ -679,7 +678,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                  }))
 //                 alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
         
-        //TODO: We can't present this dialog or access any background location features
+        // Force the user to sign up with Always location
         if status == .authorizedAlways {
             print("please work")
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -728,7 +727,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.gotCurrentStatus = true
                     self.handleTimer(timerStart: true, time: time)
                 } else {
-                    //                self.handleTimer(timerStart: false, time: Date())
+                                    self.handleTimer(timerStart: false, time: Date()) // was commented
                 }
             }
         } else {
@@ -748,6 +747,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func updateLocation() {
+        // Was already commented out, why?
 //        if switchingCount > 2 {
 //            currentLocation = changingLocation
 //            if let fullMapCell = homeTable.cellForRow(at: IndexPath(row: 0, section: 1)) as? CheckedInFullMapCell {
@@ -766,9 +766,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 //            self.lastUpdatedTime = Date()
             
             if JaniTime.user.hasAutoClockedOut {
-//                self.shouldUpdateLocation = false
-                self.shouldUpdateLocation = true
+                self.shouldUpdateLocation = false
+//                self.shouldUpdateLocation = true
                 self.handleTimer(timerStart: false, time: Date())
+                // was commented
                 if !self.dispatchedLocalNotification {
                     _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
                     self.dispatchedLocalNotification = true
@@ -777,15 +778,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.getPunchingHistory()
             }
             
-                else {
-                self.handleTimer(timerStart: false, time: Date())
-                if !self.dispatchedLocalNotification {
-                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
-                    self.dispatchedLocalNotification = true
-                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
-                }
-                self.getPunchingHistory()
-            }
+//                else {
+//                // was commented
+//                self.handleTimer(timerStart: false, time: Date())
+//                if !self.dispatchedLocalNotification {
+//                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
+//                    self.dispatchedLocalNotification = true
+//                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
+//                }
+//                self.getPunchingHistory()
+//            }
         }
     }
     

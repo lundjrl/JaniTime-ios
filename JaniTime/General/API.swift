@@ -146,15 +146,6 @@ class API {
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
                                 if status == Constants.StatusCodes.success {
                                     if let data = json["data"] as? [String : AnyObject] {
-//                                        var dataObj = data
-//                                      print("parsing data \(data)")
-//
-//                                       print("data here \(data)")
-//
-//                                        dataObj["battery_saver"] = 1 as AnyObject
-//                                        dataObj["employee_auto_clock"] = 0 as AnyObject
-//
-//                                        dataObj["employee_tracking"] = 0 as AnyObject
                                         JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: data)
                                         
                                     }
@@ -171,11 +162,9 @@ class API {
                                 if let _data = json["data"] as? [String : AnyObject] {
                                     if let _employee_auto_clock = _data["employee_auto_clock"] as? Bool {
                                         JaniTime.user.employeeAutoClockOut = _employee_auto_clock
-//                                        JaniTime.user.employeeAutoClockOut = false
                                     }
                                     if let _employee_tracking = _data["employee_tracking"] as? Bool {
                                         JaniTime.user.employeeTracking = _employee_tracking
-//                                        JaniTime.user.employeeTracking = false
                                     }
                                     if let _tracking_interval = _data["tracking_interval"] as? String {
                                         JaniTime.user.trackingInterval = Int(_tracking_interval)
@@ -186,12 +175,7 @@ class API {
                                 }
                                 if status == Constants.StatusCodes.success {
                                     if let data = json["data"] as? [String : AnyObject] {
-//                                        var dataObj = data
-//                                        dataObj["battery_saver"] = 1 as AnyObject
-//                                        dataObj["employee_tracking"] = 0 as AnyObject
-//                                        dataObj["employee_auto_clock"] = 0 as AnyObject
-                                        
-                                        JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: data)//data
+                                        JaniTime.parsingData.clockInData = ParsingData.ClockInTemplate(json: data)
                                     }
                                     CompletionHandler(message, true)
                                     return
