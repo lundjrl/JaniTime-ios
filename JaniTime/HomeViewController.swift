@@ -263,7 +263,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
                         }
                     } else { // end of add back
-                        checkInCell.infoView.isHidden = true
+//                        checkInCell.infoView.isHidden = true
+                        checkInCell.infoLabel.text = "Battery_Saver ON"
                     }
                     checkInCell.dayDateLabel.text = todayString
                    
@@ -642,11 +643,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         }
                     }
                     if !_isUserInGeoFence.0! && !dispatchedWarningNotification && isTimerRunning {
-                        
-                        
-                        showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?") // why was this commented?
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 50) {
+                            self.showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?")} // why was this commented?
                     showWarningNotification(title: "Warning", body: "You have left your building, forgot to clock out?")
-                        
                         
                     } else if _isUserInGeoFence.0! {
                         dispatchedWarningNotification = false
@@ -887,6 +886,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     func isUserInGeoFence() -> (Bool?, String?) {
+        print("User data:                     ")
+        print("Tracking on -> \(JaniTime.user.employeeTracking)")
+        print("Tracking interval -> \(JaniTime.user.trackingInterval ?? 0)")
+        print("Autoclock on -> \(JaniTime.user.employeeAutoClockOut)")
+        
         if !JaniTime.user.employeeAutoClockOut && false {
             return (true,"Inside")
             //No need to show warning message if the system auto clockout is turned off

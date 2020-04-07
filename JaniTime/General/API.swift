@@ -162,9 +162,11 @@ class API {
                                 if let _data = json["data"] as? [String : AnyObject] {
                                     if let _employee_auto_clock = _data["employee_auto_clock"] as? Bool {
                                         JaniTime.user.employeeAutoClockOut = _employee_auto_clock
+//                                        JaniTime.user.employeeAutoClockOut = false
                                     }
                                     if let _employee_tracking = _data["employee_tracking"] as? Bool {
                                         JaniTime.user.employeeTracking = _employee_tracking
+//                                        JaniTime.user.employeeTracking = false
                                     }
                                     if let _tracking_interval = _data["tracking_interval"] as? String {
                                         JaniTime.user.trackingInterval = Int(_tracking_interval)
@@ -172,6 +174,7 @@ class API {
                                             JaniTime.user.intervalDisplay = JaniTime.user.trackingInterval!.toTime()
                                         }
                                     }
+                                    
                                 }
                                 if status == Constants.StatusCodes.success {
                                     if let data = json["data"] as? [String : AnyObject] {
