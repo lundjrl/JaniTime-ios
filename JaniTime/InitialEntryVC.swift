@@ -17,6 +17,8 @@ class InitialEntryVC: UIViewController, ResponseProtocol {
     
     @IBOutlet weak var privacyLabel: UILabel!
     
+    @IBOutlet weak var versionLabel: UILabel!
+    
     let api = API()
     
     var animationSize: CGFloat = 0.1
@@ -26,6 +28,8 @@ class InitialEntryVC: UIViewController, ResponseProtocol {
         employeeIdField.delegate = self
         privacyLabel.text = "Janitime tracks your location in the background *only* while you are clocked in."
         privacyLabel.lineBreakMode = .byWordWrapping
+        
+        versionLabel.text = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
         // Do any additional setup after loading the view.
     }
     

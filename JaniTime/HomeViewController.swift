@@ -17,9 +17,9 @@ var currentLocation: CLLocation? = nil
 
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DataEntryDelegate, CLLocationManagerDelegate {
-
+    
     @IBOutlet weak var homeTable: UITableView!
-        
+    
     var isTimerRunning = false
     var checkedInTime = Date()
     
@@ -28,7 +28,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var saveButton: UIButton!
     struct checkInCheckOutImage {
-
+        
         static let checkInButtonImage = UIImage(named: "checkin_button")
         static let checkOutButtonImage = UIImage(named: "checkout_button")
         static let forcedCheckOutButtonImage = UIImage(named: "checkout_forced_button")
@@ -49,7 +49,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var goToSaved = false
     var animationSize: CGFloat = 0.1
-//
+    //
     var gotCurrentStatus = false
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -59,7 +59,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var dispatchedLocalNotification = false
     var dispatchedWarningNotification = false
     
-    let changingLocation = CLLocation(latitude: 53.058395, longitude: 70.023578)
+    //    let changingLocation = CLLocation(latitude: 53.058395, longitude: 70.023578)
     
     var switchingCount = 0
     
@@ -76,29 +76,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let historyNib = UINib(nibName: "HistoryCell", bundle: nil)
         let checkInMapNib = UINib(nibName: "CheckInMapCell", bundle: nil)
         let checkedInFullMapNib = UINib(nibName: "CheckedInFullMapCell", bundle: nil)
-//        let batterySaverNib = UINib(nibName: "BatterySaverCell", bundle: nil)
+        //        let batterySaverNib = UINib(nibName: "BatterySaverCell", bundle: nil)
         
         homeTable.register(checkInNib, forCellReuseIdentifier: "CheckInCell")
         homeTable.register(historyNib, forCellReuseIdentifier: "HistoryCell")
         homeTable.register(checkInMapNib, forCellReuseIdentifier: "CheckInMapCell")
         homeTable.register(checkedInFullMapNib, forCellReuseIdentifier: "CheckedInFullMapCell")
-//        homeTable.register(batterySaverNib, forCellReuseIdentifier: "BatterySaverCell")
+        //        homeTable.register(batterySaverNib, forCellReuseIdentifier: "BatterySaverCell")
         setCheckInCheckOutButton()
         
         // Already defined
-//        locationManager = CLLocationManager()
         locationManager.requestAlwaysAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         locationManager.startUpdatingLocation()
-//        locationManager.allowsBackgroundLocationUpdates = true
-//        locationManager.pausesLocationUpdatesAutomatically = false
-
-//        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        
         locationManager.distanceFilter = 10
         locationManager.delegate = self
-                
-//        getCompanyList() // commented
-
+        
+        //        getCompanyList() // commented
+        
         getPunchingHistory()
         
         saveButton.isHidden = true
@@ -112,13 +108,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         warningBanner.makeCapsuleShape(color: .clear)
         homeTable.bounces = false
-//        homeTable.estimatedRowHeight = 175.0
-//        homeTable.rowHeight = UITableView.automaticDimension
+        //        homeTable.estimatedRowHeight = 175.0
+        //        homeTable.rowHeight = UITableView.automaticDimension
         
         // Do any additional setup after loading the view, typically from a nib.
         if (isTimerRunning){
             self.tabBarController?.tabBar.isHidden = true
         }
+        
+        let notificationCenter = NotificationCenter.default;
+        notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+    
+    @objc func appMovedToForeground(){
+        print("moved to foreground!");
+        print(JaniTime.parsingData.clockInData?.building_radius);
+        updateLocation();
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -202,7 +207,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
-
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if !isTimerRunning {
@@ -260,15 +265,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                             } else {
                                 checkInCell.infoLabel.text = "Tracking every (\(JaniTime.user.trackingInterval)!s)"
                             }
-
+                            
                         }
                     } else { // end of add back
-//                        checkInCell.infoView.isHidden = true
+                        //                        checkInCell.infoView.isHidden = true
                         checkInCell.infoLabel.text = "Battery_Saver ON"
                     }
                     checkInCell.dayDateLabel.text = todayString
-                   
-//                    checkInCell.infoLabel.text =
+                    
+                    //                    checkInCell.infoLabel.text =
                     if JaniTime.parsingData.clockInData != nil {
                         checkInCell.locationLabel.text = JaniTime.parsingData.clockInData!.building_name
                     } else {
@@ -280,12 +285,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
             return UITableViewCell()
         } else if isTimerRunning {
-//            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
-//                if let fullBatteryCell = tableView.dequeueReusableCell(withIdentifier: "BatterySaverCell") as? BatterySaverCell {
-//                    return fullBatteryCell
-//                }
-//            } else
-                if let fullMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckedInFullMapCell") as? CheckedInFullMapCell {
+            //            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
+            //                if let fullBatteryCell = tableView.dequeueReusableCell(withIdentifier: "BatterySaverCell") as? BatterySaverCell {
+            //                    return fullBatteryCell
+            //                }
+            //            } else
+            if let fullMapCell = tableView.dequeueReusableCell(withIdentifier: "CheckedInFullMapCell") as? CheckedInFullMapCell {
                 if currentLocation != nil {
                     let camera = GMSCameraPosition(target: currentLocation!.coordinate, zoom: 18) //20
                     let marker = GMSMarker()
@@ -355,18 +360,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // If not clocked in
             if ((self.tabBarController?.tabBar.isHidden)!){
                 return 185.0
-
+                
             }else{
-
+                
                 return 350
             }
         } else {
             // If clocked in, constrain each section to these heights
-        
+            
             if isTimerRunning {
                 self.tabBarController?.tabBar.isHidden = true
                 return self.view.frame.size.height - (185.0 + 80) 
-
+                
             }else{
                 return 100.0
             }
@@ -385,7 +390,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             if isTimerRunning {
                 timerCell.checkInTimeDisplay.text = String(format: "%02d:%02d:%02d", hours ?? 00, minutes ?? 00, seconds ?? 00)
                 if currentLocation != nil && shouldUpdateLocation {
+                    print("updated time \(lastUpdatedTime)");
                     if lastUpdatedTime == nil {
+                        
                         updateLocation()
                         lastUpdatedTime = Date()
                     } else {
@@ -416,7 +423,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let yesAction = UIAlertAction(title: "Yes", style: .default) { (action) in
                 if currentLocation != nil {
                     if !_isUserInGeoFence {
-                       self.dispatchedWarningNotification = true
+                        self.dispatchedWarningNotification = true
                     }
                     self.clockOut(isForced: !_isUserInGeoFence)
                 }
@@ -449,19 +456,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             clearButton.isHidden = true
             self.scrollToFirstRow()
             checkedInTime = time
-//            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
-//                locationManager.stopUpdatingLocation()
-//                isUpdatingLocation = false
-//            } else {
-                locationManager.startUpdatingLocation()
-//            }
+            //            if !JaniTime.user.employeeTracking && !JaniTime.user.employeeAutoClockOut {
+            //                locationManager.stopUpdatingLocation()
+            //                isUpdatingLocation = false
+            //            } else {
+            locationManager.startUpdatingLocation()
+            //            }
         } else {
             saveButton.isHidden = false
             clearButton.isHidden = false
         }
         saveButton.isHidden = true
         DispatchQueue.main.async {
-//            self.homeTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic) // throws error while clocking in
+            //            self.homeTable.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .automatic) // throws error while clocking in
             self.homeTable.reloadData()
         }
         
@@ -469,21 +476,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func goToCheckIn() {
-//        let displayMessage = "Something went wrong. Please check your network and try again later."
-//
-//        self.showAlert(message: displayMessage, title: "Oops")
+        //        let displayMessage = "Something went wrong. Please check your network and try again later."
+        //
+        //        self.showAlert(message: displayMessage, title: "Oops")
         performSegue(withIdentifier: Constants.Segue.HOME_CHECKIN, sender: self)
     }
     
     func goToSavedCheckIn() {
-//        let displayMessage = "Something went wrong. Please check your network and try again later."
-//
-//        self.showAlert(message: displayMessage, title: "Oops")
+        //        let displayMessage = "Something went wrong. Please check your network and try again later."
+        //
+        //        self.showAlert(message: displayMessage, title: "Oops")
         performSegue(withIdentifier: Constants.Segue.HOME_SAVED, sender: self)
     }
     
     func dataEntered(data: clockInData, savingData: Preferences?) {
-    
+        
         let params: [String : Any] = ["client_id":Int(JaniTime.user.client_id) ?? 0, "building_id": data.building_id, "employee_id": data.employee_id, "manager_code": data.manager_code, "latitude": data.latitude, "longitude": data.longitude, "user_type": data.user_type, "name":data.name, "action" : "clock-in"]
         JaniTime.user.building_id = "\(data.building_id)"
         JaniTime.user.user_id = "\(data.employee_id)"
@@ -502,7 +509,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 JaniTime.user.hasAutoClockedOut = false
                 let _isUserInGeoFence = self.isUserInGeoFence()
                 if _isUserInGeoFence.0 != nil, !_isUserInGeoFence.0! {
-//                    self.progressRing.isHidden = false
+                    //                    self.progressRing.isHidden = false
                     self.checkInButton.setImage(checkInCheckOutImage.forcedCheckOutButtonImage, for: .normal)
                     self.warningBanner.isHidden = _isUserInGeoFence.0!
                 } else {
@@ -516,7 +523,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         try! realm.write {
                             realm.delete(overWriteData)
                             realm.add(savingData!)
-//                            overWriteData.building = savingData!.building
+                            //                            overWriteData.building = savingData!.building
                         }
                     } else if self.shouldSave(data: savingData!) {
                         let realm = try! Realm()
@@ -539,7 +546,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func clockOut(isForced: Bool = false) {
         if !isUpdatingLocation {
             locationManager.startUpdatingLocation()
-             self.view.showLoaderAnimation(loaderType: .loading, message: "Updating Location", animationViewSizeMultiplier: animationSize)
+            self.view.showLoaderAnimation(loaderType: .loading, message: "Updating Location", animationViewSizeMultiplier: animationSize)
             DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 self.view.hideLoaderAnimation()
                 self.clockOut(isForced: isForced)
@@ -589,17 +596,25 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             }
         }
     }
-//    var updateCount = 0
+    //    var updateCount = 0
     var isFirstCheck = true
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("in here")
-        let location: CLLocation = locations.last!
+        var location: CLLocation = locations.last!
+        
+        for i in locations {
+            print("accuracy \(i.horizontalAccuracy)");
+            if (i.horizontalAccuracy <= 25){
+                location = i;
+            }
+        }
+        
         isUpdatingLocation = true
         if currentLocation != nil {
             if location.distance(from: currentLocation!) > 10 {
                 Logger.print("Original Location \(currentLocation!.coordinate.latitude)")
                 
                 currentLocation = location
+                updateLocation();
                 gotCurrentStatus = false
                 DispatchQueue.main.async {
                     self.homeTable.reloadData()
@@ -634,21 +649,31 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if isTimerRunning {
                         if !_isUserInGeoFence.0! {
                             //                            self.progressRing.isHidden = false
-                        self.checkInButton.setImage(checkInCheckOutImage.forcedCheckOutButtonImage, for: .normal)
+                            self.checkInButton.setImage(checkInCheckOutImage.forcedCheckOutButtonImage, for: .normal)
                             self.warningBanner.isHidden = _isUserInGeoFence.0!
                         } else {
                             self.progressRing.isHidden = true
-                        self.checkInButton.setImage(checkInCheckOutImage.checkOutButtonImage, for: .normal)
+                            self.checkInButton.setImage(checkInCheckOutImage.checkOutButtonImage, for: .normal)
                             self.warningBanner.isHidden = true
                         }
                     }
-                    if !_isUserInGeoFence.0! && !dispatchedWarningNotification && isTimerRunning {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 50) {
-                            self.showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?")} // why was this commented?
-                    showWarningNotification(title: "Warning", body: "You have left your building, forgot to clock out?")
+                    
+                    if !_isUserInGeoFence.0! && !self.dispatchedWarningNotification && self.isTimerRunning {
+                        if (location.horizontalAccuracy <= 25){
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                                
+                                // Uncomment this line once we get auto_clockout working again.
+                                //                            self.showWarningNotification(title: "Warning", body: (JaniTime.user.employeeAutoClockOut) ? "You have left your building - you have 50 seconds to re-enter before you are automatically clocked out" : "You have left your building - Forgot to clock-out?")
+                                
+                                // why was this commented?
+                                self.showWarningNotification(title: "Warning", body: "You have left your building, forgot to clock out?")
+                                
+                            }
+                        }
                         
                     } else if _isUserInGeoFence.0! {
-                        dispatchedWarningNotification = false
+                        self.dispatchedWarningNotification = false
+                        //                    }
                     }
                 }
             }
@@ -665,26 +690,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let alert = UIAlertController(title: "Allow Always Access", message: "We need to be tracking your location in the background in order to clock you in and out of buildings, please enable \"Always\" location in your settings. Thank you.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { action in
-                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                         return
-                     }
-                     if UIApplication.shared.canOpenURL(settingsUrl) {
-                         UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
-                             print("settings were opened")
-                             
-                         })
-                     }
-                 }))
-//                 alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.default, handler: nil))
+            guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                return
+            }
+            if UIApplication.shared.canOpenURL(settingsUrl) {
+                UIApplication.shared.open(settingsUrl, completionHandler: { (success) in
+                    print("settings were opened")
+                    
+                })
+            }
+        }))
         
         // Force the user to sign up with Always location
         if status == .authorizedAlways {
-            print("please work")
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.distanceFilter = 10
             locationManager.startUpdatingLocation()
             locationManager.startUpdatingHeading()
-//            locationManager.allowsBackgroundLocationUpdates = true
+            //            locationManager.allowsBackgroundLocationUpdates = true
             locationManager.pausesLocationUpdatesAutomatically = false
             self.present(alert, animated: true, completion: nil)
             
@@ -726,7 +749,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.gotCurrentStatus = true
                     self.handleTimer(timerStart: true, time: time)
                 } else {
-                                    self.handleTimer(timerStart: false, time: Date()) // was commented
+                    self.handleTimer(timerStart: false, time: Date()) // was commented
                 }
             }
         } else {
@@ -747,26 +770,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func updateLocation() {
         // Was already commented out, why?
-//        if switchingCount > 2 {
-//            currentLocation = changingLocation
-//            if let fullMapCell = homeTable.cellForRow(at: IndexPath(row: 0, section: 1)) as? CheckedInFullMapCell {
-//                fullMapCell.fullMapView.animate(toLocation: changingLocation.coordinate)
-//            }
-//            Logger.print("Changed Location")
-//        }
-//        switchingCount += 1
+        //        if switchingCount > 2 {
+        //            currentLocation = changingLocation
+        //            if let fullMapCell = homeTable.cellForRow(at: IndexPath(row: 0, section: 1)) as? CheckedInFullMapCell {
+        //                fullMapCell.fullMapView.animate(toLocation: changingLocation.coordinate)
+        //            }
+        //            Logger.print("Changed Location")
+        //        }
+        //        switchingCount += 1
         if JaniTime.parsingData.clockInData != nil, JaniTime.parsingData.clockInData!.building_location != nil {
             Logger.print("@=\(currentLocation!.distance(from: JaniTime.parsingData.clockInData!.building_location!))=@")
         }
         let timeStamp = Date().timeIntervalSince1970
         let params: [String : Any] = ["client_id" : Int(JaniTime.user.client_id) ?? 0, "building_id" : Int(JaniTime.user.building_id) ?? 0, "employee_id": Int(JaniTime.user.user_id) ?? 0, "latitude": isUpdatingLocation ?  currentLocation!.coordinate.latitude : 0, "longitude": isUpdatingLocation ?  currentLocation!.coordinate.longitude : 0, "time_stamp": timeStamp]
-
+        
         api.callAPI(params: params, APItype: .clock_current, APIMethod: .post) { (message, status) in
-//            self.lastUpdatedTime = Date()
+            //            self.lastUpdatedTime = Date()
             
             if JaniTime.user.hasAutoClockedOut {
                 self.shouldUpdateLocation = false
-//                self.shouldUpdateLocation = true
+                //                self.shouldUpdateLocation = true
                 self.handleTimer(timerStart: false, time: Date())
                 // was commented
                 if !self.dispatchedLocalNotification {
@@ -777,16 +800,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.getPunchingHistory()
             }
             
-//                else {
-//                // was commented
-//                self.handleTimer(timerStart: false, time: Date())
-//                if !self.dispatchedLocalNotification {
-//                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
-//                    self.dispatchedLocalNotification = true
-//                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
-//                }
-//                self.getPunchingHistory()
-//            }
+            //                else {
+            //                // was commented
+            //                self.handleTimer(timerStart: false, time: Date())
+            //                if !self.dispatchedLocalNotification {
+            //                    _ = LocalNotification.dispatchlocalNotification(with: "Clock-Out", body: "System clocked you out since you went outside the building radius", timeAfter: 1, identifier: LocalNotification.notificationIdentifiers.clockedOut)
+            //                    self.dispatchedLocalNotification = true
+            //                    self.showAlert(message: "System clocked you out since you went outside the building radius", title: "Clock-out")
+            //                }
+            //                self.getPunchingHistory()
+            //            }
         }
     }
     
@@ -801,7 +824,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let objects = realm.objects(Preferences.self)
         for object in objects {
             if areRealmObjectsEqual(objectA: object, objectB: data) {
-                return false    
+                return false
             }
         }
         return true
@@ -863,7 +886,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             JaniTime.appDelegate.resetAppToFirstController(sBID: Constants.StoryBoardID.initialVC)
         }
-//        getCompanyList()
+        //        getCompanyList()
     }
     
     func clearAlert() {
@@ -884,12 +907,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    
+    /*
+     Check if a user's location is actually within the radius of the selected Building.
+     */
     func isUserInGeoFence() -> (Bool?, String?) {
-        print("User data:                     ")
-        print("Tracking on -> \(JaniTime.user.employeeTracking)")
-        print("Tracking interval -> \(JaniTime.user.trackingInterval ?? 0)")
-        print("Autoclock on -> \(JaniTime.user.employeeAutoClockOut)")
         
         if !JaniTime.user.employeeAutoClockOut && false {
             return (true,"Inside")
@@ -900,9 +921,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let userDistance = circleCenter.distance(from: currentLocation!)
             if userDistance > JaniTime.parsingData.clockInData!.building_radius {
                 //outside geofence
+                print("outside");
                 return(false, "Outside")
             } else {
                 //inside geofence
+                print("inside");
                 return(true, "Inside")
             }
         }
@@ -919,7 +942,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func showLocationWarning() {
         showAlert(message: "Location is not available right now. Please allow JaniTime to access location, in Settings", title: "Error")
-//        locationManager.requestWhenInUseAuthorization()
+        //        locationManager.requestWhenInUseAuthorization()
     }
     
     @objc func longPressAct(_ sender: UILongPressGestureRecognizer) {

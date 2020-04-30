@@ -65,10 +65,15 @@ class DataEntryController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var tableHeight: NSLayoutConstraint!
     
     @IBOutlet weak var checkButton: UIButton!
+    @IBOutlet weak var checkLabel: UILabel!
     
     var shouldSave: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        checkButton.isHidden = true;
+        checkLabel.isHidden = true;
+        
         idLabel.text = JaniTime.user.client_company
         IQKeyboardManager.shared().previousNextDisplayMode = .alwaysHide
         let dataNib = UINib(nibName: "DataCell", bundle: nil)
