@@ -24,6 +24,8 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         
         self.tabBarController?.tabBar.isHidden = false
+        messagesTable.delegate = self
+        messagesTable.dataSource = self
         
         print("Messages screen loaded")
         
@@ -58,53 +60,56 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     // TableView stuff here
     
     // Display
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 2
+//    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // If tablesize is empty
-        if section == 0 {
-            return 1
-        } else {
-            // Return size of table here.
-            return JaniTime.parsingData.messages.count
-        }
+        print("Tablesize: \(section)")
+        return 3
+        
+//        if section == 0 {
+//            return 1
+//        } else {
+//            // Return size of table here.
+//            return JaniTime.parsingData.messages.count
+//        }
         
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 {
-            // Do something if table is empty
-            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: messagesTable.frame.size.width, height: 0))
-            headerView.backgroundColor = .clear
-            return headerView
-        } else {
-            // Do something else if table is not empty
-            // TODO: constrain margins here for table
-            return nil
-        }
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        if section == 0 {
+//            // Do something if table is empty
+//            let headerView = UIView(frame: CGRect(x: 0, y: 0, width: messagesTable.frame.size.width, height: 0))
+//            headerView.backgroundColor = .clear
+//            return headerView
+//        } else {
+//            // Do something else if table is not empty
+//            // TODO: constrain margins here for table
+//            return nil
+//        }
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 {
-            return 0
-        } else {
-            return 40
-        }
+        return 2
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.00000
+        return 2
     }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView()
-    }
+//
+//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        return UIView()
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        print("Cell for row at called")
         // Do stuff here?
         if let messageCell = tableView.dequeueReusableCell(withIdentifier: "MessageCell") as? MessageCell {
+            messageCell.messageTitle.text = "Data"
+            messageCell.messageDate.text = "09-17-2020"
+            messageCell.messageBody.text = "Body"
             
             return messageCell
 
@@ -113,13 +118,13 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0 {
-            return 350
-        } else {
-            return 100.0
-        }
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if indexPath.section == 0 {
+//            return 350
+//        } else {
+//            return 100.0
+//        }
+//    }
     
     // End table stuff
     
