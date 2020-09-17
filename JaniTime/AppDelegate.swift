@@ -20,7 +20,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 //        GMSServices.provideAPIKey("AIzaSyDeXVoE-GRg-9HbwbSbMHE21gUsIGEYqnk")
-        GMSServices.provideAPIKey("AIzaSyDIllctu9HXG-CB320JLfVzBlZLqZUE_kI")
+        
+        let filePath = Bundle.main.path(forResource: "keys", ofType: "plist")
+        let plist = NSDictionary(contentsOfFile:filePath!)
+        let value = plist?.object(forKey: "GMSServices") as! String
+        
+        GMSServices.provideAPIKey(value)
+        
+        print("Key: \(value)")
         if JaniTime.user.client_id == "" && JaniTime.user.client_company == "" {
             resetAppToFirstController(sBID: Constants.StoryBoardID.initialVC)
         } else {
