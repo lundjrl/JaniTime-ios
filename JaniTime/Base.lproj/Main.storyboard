@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tND-hh-Kum">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tND-hh-Kum">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -29,7 +29,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vt0-eB-zrV" userLabel="TopView">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vt0-eB-zrV" userLabel="TopView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="167"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Jani Time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O8D-lc-0CL">
@@ -104,6 +104,8 @@
                             <constraint firstItem="PYL-Nh-2N4" firstAttribute="top" secondItem="RfB-is-wJ1" secondAttribute="top" constant="30" id="87s-Br-nhB"/>
                             <constraint firstItem="f4q-Fj-ykK" firstAttribute="centerX" secondItem="V3Q-iC-19y" secondAttribute="centerX" id="ECS-k1-RIU"/>
                             <constraint firstItem="hqc-3m-m2m" firstAttribute="trailing" secondItem="PYL-Nh-2N4" secondAttribute="trailing" constant="60" id="GYq-jm-o8N"/>
+                            <constraint firstItem="vt0-eB-zrV" firstAttribute="top" secondItem="hqc-3m-m2m" secondAttribute="top" id="Jp5-cK-RM7"/>
+                            <constraint firstItem="WLC-PM-Vyl" firstAttribute="top" secondItem="vt0-eB-zrV" secondAttribute="bottom" constant="25.5" id="PWm-rC-d8p"/>
                             <constraint firstItem="oe6-no-riy" firstAttribute="leading" secondItem="hqc-3m-m2m" secondAttribute="leading" constant="10" id="Pxy-sr-War"/>
                             <constraint firstItem="RfB-is-wJ1" firstAttribute="top" secondItem="hqc-3m-m2m" secondAttribute="top" constant="30" id="Q3X-Q4-bvg"/>
                             <constraint firstItem="WLC-PM-Vyl" firstAttribute="top" secondItem="RfB-is-wJ1" secondAttribute="bottom" constant="85" id="Ren-lq-1hY"/>
@@ -364,6 +366,7 @@
                         <outlet property="warningBanner" destination="wx7-Jl-Gm0" id="U8h-uS-i4Q"/>
                         <segue destination="ucE-ym-v1v" kind="show" identifier="home_checkIn" id="u7g-2S-RQH"/>
                         <segue destination="Ngu-uA-KV9" kind="show" identifier="home_saved" id="afe-sA-nEZ"/>
+                        <segue destination="8BS-bk-qCk" kind="presentation" identifier="messages" id="ml9-uu-edV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -539,6 +542,7 @@
                     <connections>
                         <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="xzB-QC-2sO"/>
                         <segue destination="M6U-b5-bSj" kind="relationship" relationship="viewControllers" id="q7Y-1B-Ecm"/>
+                        <segue destination="8BS-bk-qCk" kind="relationship" relationship="viewControllers" id="OfU-QT-nNi"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GNb-bq-cyf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -626,6 +630,38 @@
             </objects>
             <point key="canvasLocation" x="928.79999999999995" y="665.21739130434787"/>
         </scene>
+        <!--MessageViewController-->
+        <scene sceneID="7dE-KN-4QC">
+            <objects>
+                <viewController title="MessageViewController" id="8BS-bk-qCk" customClass="MessageViewController" customModule="JaniTime" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="60J-eb-1UV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Iwh-hO-F34">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="r7k-u0-wX6" firstAttribute="trailing" secondItem="Iwh-hO-F34" secondAttribute="trailing" id="Diu-iU-HcL"/>
+                            <constraint firstItem="Iwh-hO-F34" firstAttribute="top" secondItem="r7k-u0-wX6" secondAttribute="top" id="I3C-gN-Qz7"/>
+                            <constraint firstItem="Iwh-hO-F34" firstAttribute="leading" secondItem="r7k-u0-wX6" secondAttribute="leading" id="IwW-li-fsf"/>
+                            <constraint firstItem="r7k-u0-wX6" firstAttribute="bottom" secondItem="Iwh-hO-F34" secondAttribute="bottom" id="Ste-Uh-7Kb"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="r7k-u0-wX6"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Messages" image="message.fill" catalog="system" id="4t0-nB-euw"/>
+                    <navigationItem key="navigationItem" id="Zwf-Ni-mkY"/>
+                    <connections>
+                        <outlet property="messagesTable" destination="Iwh-hO-F34" id="2W9-0r-oV0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bmP-9E-aap" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1158" y="1734"/>
+        </scene>
         <!--Account-->
         <scene sceneID="lHh-vY-RgP">
             <objects>
@@ -670,7 +706,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="FMf-UU-OHc"/>
+        <segue reference="ml9-uu-edV"/>
+        <segue reference="afe-sA-nEZ"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.29632169009999998" green="0.65437257289999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
@@ -681,6 +718,7 @@
         <image name="coming_soon" width="111" height="106"/>
         <image name="done_bg" width="119.5" height="52"/>
         <image name="janitime_logo" width="242" height="77.5"/>
+        <image name="message.fill" catalog="system" width="128" height="113"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="save_icon" width="16" height="17"/>
         <image name="success_tick" width="60.5" height="61"/>

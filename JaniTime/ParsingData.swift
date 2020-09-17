@@ -14,6 +14,7 @@ import CoreLocation
 class ParsingData {
     
     var punchingHistory: [PunchingHistoryTemplate] = []
+    var messages: [MessagesTemplate] = []
     var companyList: [CompanyTemplate] = []
     var clockInData: ClockInTemplate? = nil
     class PunchingHistoryTemplate {
@@ -99,5 +100,24 @@ class ParsingData {
             }
         }
        
+    }
+    
+    class MessagesTemplate {
+        var title = ""
+        var body = ""
+        var posted_date = ""
+        
+        init(json: [String : AnyObject]) {
+            Logger.print(json)
+            if let _title = json["message_title"] as? String {
+                self.title = _title
+            }
+            if let _body = json["message"] as? String {
+                self.body = _body
+            }
+            if let _date = json["date_posted"] as? String {
+                self.posted_date = _date
+            }
+        }
     }
 }

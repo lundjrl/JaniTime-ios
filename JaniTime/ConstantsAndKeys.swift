@@ -31,7 +31,7 @@ class Constants {
         static let HOME_SAVED = "home_saved"
         static let HOME_CHECKIN = "home_checkIn"
         static let CHECKIN_SAVED = "checkIn_saved"
-
+        static let MESSAGES = "messages"
     }
     
     
@@ -46,12 +46,12 @@ class Constants {
     }
     
     struct urls {
-        // Old API stuff
-//        static let developmentServerUrl: String = "http://34.219.166.65:3000"
-//        static let productionServerUrl: String = "http://34.219.166.65"
         
-        // New AWS API stuff
-        static let productionServerUrl: String = "http://18.222.126.242/janitime-backend/"
+        // ######## Swap back to this url when in production ######## //
+//        static let productionServerUrl: String = "https://mapi.janitime.com"
+        
+        static let productionServerUrl: String = "http://localhost:8000"
+        
 
         static let developmentServerUrl: String = productionServerUrl
 

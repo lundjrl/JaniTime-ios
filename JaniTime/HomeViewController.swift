@@ -97,6 +97,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         getPunchingHistory()
         
+        getEmployerMessages()
+        
         saveButton.isHidden = true
         
         homeTable.allowsSelection = false
@@ -143,6 +145,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.getSavedCheckIn = false
                     self.goToSavedCheckIn()
                 }
+            }
+        }
+    }
+    
+    func getEmployerMessages(){
+        let params: [String : Int] = ["user_id": Int(JaniTime.user.user_id) ?? 0, "client_id": Int(JaniTime.user.client_id)!]
+        
+        api.callAPI(params: params, APItype: .messages, APIMethod: .post) { (message, status) in
+            print("Home Status: \(status)")
+            print("Message: \(message)")
+            
+            if true { // status
+                self.getLastMessage(message: message)
+            } else {
+                // There's probably no messages from the company.
+                print("No messages from company. Carry on.")
+            }
+        }
+    }
+    
+    func getLastMessage(message: String){
+        print("In get last messge home")
+        
+        if let lastmessage = JaniTime.userDefaults.string(forKey: "message"){
+            print("Last message was \(lastmessage)")
+            if (lastmessage != message) {
+                // Segue to messages screen.
+                performSegue(withIdentifier: Constants.Segue.MESSAGES, sender: self)
+            } else {
+                // Do nothing.
             }
         }
     }
@@ -594,6 +626,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             } else {
                 savedCheckInVC.selectedDisplayData = .companyList
             }
+        }
+        else if let messagesVC = segue.destination as? MessageViewController {
+            messagesVC.delegate = self
         }
     }
     //    var updateCount = 0

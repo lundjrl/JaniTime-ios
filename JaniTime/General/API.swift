@@ -22,11 +22,12 @@ class API {
     #endif
     
     
-    private let punchingHistory = "/api/punching_history/list.php"
-    private let clock_in_out = "/api/clock/update.php"
-    private let clock_current = "/api/clock/list.php"
-    private let company_list = "/api/company/list.php"
-    private let validate_employee = "/api/company/check_employee_code.php"
+    private let punchingHistory = "/punching_history/list.php"
+    private let clock_in_out = "/clock/update.php"
+    private let clock_current = "/clock/list.php"
+    private let company_list = "/company/list.php"
+    private let validate_employee = "/company/check_employee_code.php"
+    private let messages = "/message_history/list.php"
     
     enum type {
         case punchingHistory
@@ -34,6 +35,7 @@ class API {
         case clock_current
         case company_list
         case validate_employee
+        case messages
     }
     
     func getAPIUrl(APItype: type) -> String {
@@ -50,6 +52,8 @@ class API {
             apiUrl.append(company_list)
         case .validate_employee:
             apiUrl.append(validate_employee)
+        case .messages:
+            apiUrl.append(messages)
         }
         
         return apiUrl
@@ -158,7 +162,7 @@ class API {
                             }
                         case .clock_current:
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
-                                Logger.print("Status is \(status) Response is \(json["data"]) for response \(response.request)")
+                          
                                 if let _data = json["data"] as? [String : AnyObject] {
                                     if let _employee_auto_clock = _data["employee_auto_clock"] as? Bool {
                                         JaniTime.user.employeeAutoClockOut = _employee_auto_clock
@@ -230,6 +234,21 @@ class API {
                                     return
                                 }
                             }
+                        case .messages:
+                            if let status = json[Constants.Keys.STATUS]?.stringValue {
+                                if status == Constants.StatusCodes.success {
+                                    print("SUCCESS MESSAGES")
+                                    print(data)
+                                    
+                                    CompletionHandler(message, true)
+                                    return
+                                } else {
+                                    print("ERROR MESSAGES")
+                                    CompletionHandler(message, false)
+                                    return
+                                }
+                            }
+                            print("Messages called")
                         }
                         //end of switch
                     } else {
