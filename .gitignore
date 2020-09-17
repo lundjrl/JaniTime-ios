@@ -221,3 +221,7 @@ Carthage/Build
 
 fastlane/report.xml
 fastlane/screenshots
+
+
+# Any key files should not be committed.
+JaniTime/keys.plist

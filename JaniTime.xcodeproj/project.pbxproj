@@ -64,6 +64,10 @@
 		42CE520522377E4800DA0EC6 /* ParsingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42CE520422377E4800DA0EC6 /* ParsingData.swift */; };
 		7885F9F230330106908C74A8 /* Pods_JaniTimeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 170F44AEF360A9B5A4F69751 /* Pods_JaniTimeTests.framework */; };
 		9F601B1623E30E7900259C4B /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F601B1523E30E7900259C4B /* AccountViewController.swift */; };
+		9FDC9C87251270CE00435188 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDC9C86251270CE00435188 /* MessageViewController.swift */; };
+		9FDC9C8925127F4800435188 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FDC9C8825127F4800435188 /* MessageCell.swift */; };
+		9FDC9C8B25138C1C00435188 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FDC9C8A25138C1C00435188 /* MessageCell.xib */; };
+		9FDC9C8D2513BA2800435188 /* keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9FDC9C8C2513BA2800435188 /* keys.plist */; };
 		B11E6C8022951B0E008F47F6 /* CheckedInFullMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B11E6C7E22951B0E008F47F6 /* CheckedInFullMapCell.swift */; };
 		B11E6C8122951B0E008F47F6 /* CheckedInFullMapCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B11E6C7F22951B0E008F47F6 /* CheckedInFullMapCell.xib */; };
 		B1D973FB226D7B83002C6F3B /* InitialEntryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1D973FA226D7B83002C6F3B /* InitialEntryVC.swift */; };
@@ -162,6 +166,10 @@
 		5E25770E0BE5FC8778281769 /* Pods-JaniTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JaniTime.release.xcconfig"; path = "Pods/Target Support Files/Pods-JaniTime/Pods-JaniTime.release.xcconfig"; sourceTree = "<group>"; };
 		73255A7197F89FAE09E94CB3 /* Pods_JaniTimeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JaniTimeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F601B1523E30E7900259C4B /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
+		9FDC9C86251270CE00435188 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		9FDC9C8825127F4800435188 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		9FDC9C8A25138C1C00435188 /* MessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
+		9FDC9C8C2513BA2800435188 /* keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = keys.plist; sourceTree = "<group>"; };
 		B085528975324B5C14682790 /* Pods_JaniTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JaniTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B11E6C7E22951B0E008F47F6 /* CheckedInFullMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckedInFullMapCell.swift; sourceTree = "<group>"; };
 		B11E6C7F22951B0E008F47F6 /* CheckedInFullMapCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CheckedInFullMapCell.xib; sourceTree = "<group>"; };
@@ -244,6 +252,8 @@
 				42CC004E2230E7F500640F8B /* LaunchScreen.storyboard */,
 				42CC00512230E7F500640F8B /* Info.plist */,
 				42CC00492230E7F300640F8B /* JaniTime.xcdatamodeld */,
+				9FDC9C86251270CE00435188 /* MessageViewController.swift */,
+				9FDC9C8C2513BA2800435188 /* keys.plist */,
 			);
 			path = JaniTime;
 			sourceTree = "<group>";
@@ -287,6 +297,8 @@
 				B1DD18FB237BCD34005D1459 /* BatterySaverCell.xib */,
 				426DA4B32238BEF400FC8369 /* CompanyListCell.swift */,
 				426DA4B42238BEF400FC8369 /* CompanyListCell.xib */,
+				9FDC9C8825127F4800435188 /* MessageCell.swift */,
+				9FDC9C8A25138C1C00435188 /* MessageCell.xib */,
 			);
 			path = "XIBs&Classes";
 			sourceTree = "<group>";
@@ -499,6 +511,7 @@
 				42CC00A222311B4000640F8B /* SF-UI-Display-Semibold.otf in Resources */,
 				42CC00A622311B4000640F8B /* SF-UI-Text-BoldItalic.otf in Resources */,
 				42CC009F22311B4000640F8B /* SF-UI-Text-LightItalic.otf in Resources */,
+				9FDC9C8D2513BA2800435188 /* keys.plist in Resources */,
 				426DA4B62238BEF400FC8369 /* CompanyListCell.xib in Resources */,
 				426DA4B822392D8900FC8369 /* loader.json in Resources */,
 				42CC00A422311B4000640F8B /* SF-UI-Display-Ultralight.otf in Resources */,
@@ -508,6 +521,7 @@
 				42CC00AF22311B4000640F8B /* SF-UI-Text-Light.otf in Resources */,
 				42CC00A022311B4000640F8B /* SF-UI-Text-Medium.otf in Resources */,
 				42CC00AB22311B4000640F8B /* SF-UI-Text-HeavyItalic.otf in Resources */,
+				9FDC9C8B25138C1C00435188 /* MessageCell.xib in Resources */,
 				42CC00A522311B4000640F8B /* SF-UI-Text-MediumItalic.otf in Resources */,
 				42CC00482230E7F300640F8B /* Main.storyboard in Resources */,
 			);
@@ -683,6 +697,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				42CC00782230F94100640F8B /* General.swift in Sources */,
+				9FDC9C87251270CE00435188 /* MessageViewController.swift in Sources */,
 				426DA4B52238BEF400FC8369 /* CompanyListCell.swift in Sources */,
 				9F601B1623E30E7900259C4B /* AccountViewController.swift in Sources */,
 				42CC007F22310F1C00640F8B /* CheckInCell.swift in Sources */,
@@ -694,6 +709,7 @@
 				B1F0C2732276CB9000787E8F /* LocalNotification.swift in Sources */,
 				B1D973FB226D7B83002C6F3B /* InitialEntryVC.swift in Sources */,
 				42CC008522311A1B00640F8B /* HistoryCell.swift in Sources */,
+				9FDC9C8925127F4800435188 /* MessageCell.swift in Sources */,
 				42CC00452230E7F300640F8B /* HomeViewController.swift in Sources */,
 				42CC004B2230E7F300640F8B /* JaniTime.xcdatamodeld in Sources */,
 				B1D973FD226D8CB1002C6F3B /* ValidationResponseVC.swift in Sources */,
@@ -893,7 +909,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.goodbits.janitime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -919,7 +935,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.2;
+				MARKETING_VERSION = 2.1.3;
 				MTL_ENABLE_DEBUG_INFO = "INCLUDE SOURCE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.goodbits.janitime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
