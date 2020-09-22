@@ -79,4 +79,5 @@ class User {
     var employeeTracking:Bool = false
     var trackingInterval: Int? = 0
     var intervalDisplay = ""
+    
 }

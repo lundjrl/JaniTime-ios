@@ -18,12 +18,11 @@ class MessageCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("Awakening from Nib")
+        
     }
     
 //    Show more here for when user presses on message
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        print("Set Selected")
     }
 }

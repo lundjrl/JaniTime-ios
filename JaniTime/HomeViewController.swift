@@ -97,8 +97,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         getPunchingHistory()
         
-        getEmployerMessages()
-        
+        getEmployerMessages(clock: false)
+                
         saveButton.isHidden = true
         
         homeTable.allowsSelection = false
@@ -149,15 +149,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func getEmployerMessages(){
+    func getEmployerMessages(clock: Bool){
         let params: [String : Int] = ["user_id": Int(JaniTime.user.user_id) ?? 0, "client_id": Int(JaniTime.user.client_id)!]
         
         api.callAPI(params: params, APItype: .messages, APIMethod: .post) { (message, status) in
-            print("Home Status: \(status)")
-            print("Message: \(message)")
-            
-            if true { // status
-                self.getLastMessage(message: message)
+
+            if status {
+                print("Status true")
+                self.getLastMessage(message: message, clock: clock)
             } else {
                 // There's probably no messages from the company.
                 print("No messages from company. Carry on.")
@@ -165,18 +164,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    func getLastMessage(message: String){
-        print("In get last messge home")
-        
+    func getLastMessage(message: String, clock: Bool){
         if let lastmessage = JaniTime.userDefaults.string(forKey: "message"){
             print("Last message was \(lastmessage)")
             if (lastmessage != message) {
                 // Segue to messages screen.
+                self.saveLastMessage(message: lastmessage)
                 performSegue(withIdentifier: Constants.Segue.MESSAGES, sender: self)
             } else {
-                // Do nothing.
+                if clock {
+                    goToCheckIn()
+                } else {
+                    self.saveLastMessage(message: lastmessage)
+                }
             }
         }
+    }
+    
+    // Save last employer message to local data
+    func saveLastMessage(message: String){
+        JaniTime.userDefaults.set(message, forKey: "message")
+        JaniTime.userDefaults.synchronize()
     }
     
     @objc func statusCheck() {
@@ -442,8 +450,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBAction func checkInCheckOutAct(_ sender: Any) {
         if !isTimerRunning {
             if currentLocation != nil {
-                goToCheckIn()
-            } else {
+                // User has seen last employer message
+                getEmployerMessages(clock: true)
+            }
+            else {
+                // User is currently clocked in
                 showLocationWarning()
             }
             

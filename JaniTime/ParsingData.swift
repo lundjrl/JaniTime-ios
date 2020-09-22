@@ -105,7 +105,9 @@ class ParsingData {
     class MessagesTemplate {
         var title = ""
         var body = ""
-        var posted_date = ""
+        var date_posted = 0
+        var client_id = 0
+        var user_posted = ""
         
         init(json: [String : AnyObject]) {
             Logger.print(json)
@@ -115,8 +117,14 @@ class ParsingData {
             if let _body = json["message"] as? String {
                 self.body = _body
             }
-            if let _date = json["date_posted"] as? String {
-                self.posted_date = _date
+            if let _date = json["date_posted"] as? Int {
+                self.date_posted = _date
+            }
+            if let _id = json["client_id"] as? Int {
+                self.client_id = _id
+            }
+            if let _user_posted = json["user_posted"] as? String {
+                self.user_posted = _user_posted
             }
         }
     }

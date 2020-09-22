@@ -33,4 +33,5 @@ struct clockInData {
     var user_type = ""
     var name = ""
     var action = ""
+    var lastMessage = ""
 }

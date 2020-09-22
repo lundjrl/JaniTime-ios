@@ -15,10 +15,10 @@ import CoreLocation
 
 class API {
     #if DEBUG
-        public let baseUrl = Constants.urls.developmentServerUrl
+    public let baseUrl = Constants.urls.developmentServerUrl
     #else
-        public let baseUrl = Constants.urls.productionServerUrl
-//    public let baseUrl = Constants.urls.developmentServerUrl
+    public let baseUrl = Constants.urls.productionServerUrl
+    //    public let baseUrl = Constants.urls.developmentServerUrl
     #endif
     
     
@@ -115,12 +115,16 @@ class API {
         
         alamofireCall(url: apiUrl, params: apiParameters, headers: headers, APIMethod: APIMethod, urlEncoding: withUrlEncoding) { (response, status) in
             
+            print("ALAMO RESPONSE")
+            print("API params: \(String(describing: apiParameters))")
+            
+            
             switch response.result {
             case .success:
                 
                 if let json = response.result.value as? [String: AnyObject] {
                     if let data = json["data"] {
-                      
+                        
                         var message = Constants.Messages.INCOMPLETE_DATA_FROM_SERVER
                         if let val = data[Constants.Keys.MESSAGE] as? String {
                             message = val
@@ -162,15 +166,15 @@ class API {
                             }
                         case .clock_current:
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
-                          
+                                
                                 if let _data = json["data"] as? [String : AnyObject] {
                                     if let _employee_auto_clock = _data["employee_auto_clock"] as? Bool {
                                         JaniTime.user.employeeAutoClockOut = _employee_auto_clock
-//                                        JaniTime.user.employeeAutoClockOut = false
+                                        //                                        JaniTime.user.employeeAutoClockOut = false
                                     }
                                     if let _employee_tracking = _data["employee_tracking"] as? Bool {
                                         JaniTime.user.employeeTracking = _employee_tracking
-//                                        JaniTime.user.employeeTracking = false
+                                        //                                        JaniTime.user.employeeTracking = false
                                     }
                                     if let _tracking_interval = _data["tracking_interval"] as? String {
                                         JaniTime.user.trackingInterval = Int(_tracking_interval)
@@ -208,6 +212,7 @@ class API {
                                         JaniTime.parsingData.companyList.removeAll()
                                         for each in countryData {
                                             JaniTime.parsingData.companyList.append(ParsingData.CompanyTemplate(json: each))
+                                            
                                         }
                                     }
                                     CompletionHandler(message, true)
@@ -237,9 +242,18 @@ class API {
                         case .messages:
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
                                 if status == Constants.StatusCodes.success {
-                                    print("SUCCESS MESSAGES")
-                                    print(data)
-                                    
+                                    if let data = json["data"] as? [String : AnyObject] {
+                                        if let messageData = data["data"] as? [[String : AnyObject]] {
+                                            JaniTime.parsingData.messages.removeAll()
+                                            for each in messageData.reversed() {
+                                                JaniTime.parsingData.messages.append( ParsingData.MessagesTemplate(json: each))
+                                                                                                
+                                            }
+                                            
+                                            message = JaniTime.parsingData.messages.first?.body as! String
+                                        }
+                                        
+                                    }
                                     CompletionHandler(message, true)
                                     return
                                 } else {
@@ -261,7 +275,6 @@ class API {
                 break
                 
             case .failure(let error):
-                
                 var errorMessage = error.localizedDescription
                 Logger.print("====ERROR====\(params)")
                 if response.response?.statusCode != nil {
