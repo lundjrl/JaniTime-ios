@@ -243,7 +243,7 @@ class API {
                             if let status = json[Constants.Keys.STATUS]?.stringValue {
                                 if status == Constants.StatusCodes.success {
                                     if let data = json["data"] as? [String : AnyObject] {
-                                        if let messageData = data["data"] as? [[String : AnyObject]] {
+                                        if let messageData = data["message"] as? [[String : AnyObject]] {
                                             JaniTime.parsingData.messages.removeAll()
                                             for each in messageData.reversed() {
                                                 JaniTime.parsingData.messages.append( ParsingData.MessagesTemplate(json: each))
