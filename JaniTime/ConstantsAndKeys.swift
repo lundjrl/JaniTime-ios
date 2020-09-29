@@ -49,9 +49,6 @@ class Constants {
         
         // ######## Swap back to this url when in production ######## //
         static let productionServerUrl: String = "https://mapi.janitime.com"
-        
-//        static let productionServerUrl: String = "http://localhost:8000"
-        
 
         static let developmentServerUrl: String = productionServerUrl
 

@@ -159,6 +159,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.getLastMessage(message: message, clock: clock)
             } else {
                 // There's probably no messages from the company.
+                self.getLastMessage(message: message, clock: clock)
                 print("No messages from company. Carry on.")
             }
         }
@@ -167,7 +168,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func getLastMessage(message: String, clock: Bool){
         if let lastmessage = JaniTime.userDefaults.string(forKey: "message"){
             print("Last message was \(lastmessage)")
-            if (lastmessage != message) {
+            print("Message was \(message)")
+            if (message == "Please provide necessary data."){
+                if clock {
+                    goToCheckIn()
+                }
+            }
+            else if (lastmessage != message) {
                 // Segue to messages screen.
                 self.saveLastMessage(message: lastmessage)
                 performSegue(withIdentifier: Constants.Segue.MESSAGES, sender: self)
@@ -449,8 +456,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func checkInCheckOutAct(_ sender: Any) {
         if !isTimerRunning {
+            print("Timer not running in check out/in")
             if currentLocation != nil {
                 // User has seen last employer message
+                print("Getting employermessages")
                 getEmployerMessages(clock: true)
             }
             else {

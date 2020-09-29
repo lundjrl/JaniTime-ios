@@ -257,12 +257,10 @@ class API {
                                     CompletionHandler(message, true)
                                     return
                                 } else {
-                                    print("ERROR MESSAGES")
                                     CompletionHandler(message, false)
                                     return
                                 }
                             }
-                            print("Messages called")
                         }
                         //end of switch
                     } else {
