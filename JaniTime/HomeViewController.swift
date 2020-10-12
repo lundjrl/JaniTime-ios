@@ -150,6 +150,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getEmployerMessages(clock: Bool){
+        print("getemployer messages called")
         let params: [String : Int] = ["user_id": Int(JaniTime.user.user_id) ?? 0, "client_id": Int(JaniTime.user.client_id)!]
         
         api.callAPI(params: params, APItype: .messages, APIMethod: .post) { (message, status) in
@@ -159,6 +160,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.getLastMessage(message: message, clock: clock)
             } else {
                 // There's probably no messages from the company.
+                print("Status \(status)")
                 self.getLastMessage(message: message, clock: clock)
                 print("No messages from company. Carry on.")
             }
@@ -169,6 +171,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let lastmessage = JaniTime.userDefaults.string(forKey: "message"){
             print("Last message was \(lastmessage)")
             print("Message was \(message)")
+            print("Clock? \(clock)")
             if (message == "Please provide necessary data."){
                 if clock {
                     goToCheckIn()
@@ -184,6 +187,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 } else {
                     self.saveLastMessage(message: lastmessage)
                 }
+            }
+        } else {
+            self.saveLastMessage(message: message)
+            if (clock) {
+                goToCheckIn()
             }
         }
     }
