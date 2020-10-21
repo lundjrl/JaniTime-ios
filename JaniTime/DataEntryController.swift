@@ -68,6 +68,8 @@ class DataEntryController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var checkLabel: UILabel!
     
     var shouldSave: Bool = false
+    
+    // This Method is loaded once in view controller life cycle. Its Called When all the view are loaded.
     override func viewDidLoad() {
         super.viewDidLoad()
         

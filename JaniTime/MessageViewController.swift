@@ -19,7 +19,7 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var delegate: DataEntryDelegate? = nil
     
-    // Change native UI to be what we want when screen is generated.
+    // This Method is loaded once in view controller life cycle. Its Called When all the view are loaded.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,8 +36,12 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         messagesTable.separatorStyle = .none
         messagesTable.bounces = false
         
-        getEmployerMessages()
+//        getEmployerMessages()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        getEmployerMessages()
     }
     
     // Do something when onFocus listener fires off
@@ -96,7 +100,6 @@ class MessageViewController: UIViewController, UITableViewDelegate, UITableViewD
         let params: [String : Int] = ["user_id": Int(JaniTime.user.user_id) ?? 0, "client_id": Int(JaniTime.user.client_id)! ]
         api.callAPI(params: params, APItype: .messages, APIMethod: .post) { (message, status) in
             if status {
-                print("CAlled API HEY")
                 self.saveLastMessage(message: message)
                 DispatchQueue.main.async {
                     self.messagesTable.reloadData()

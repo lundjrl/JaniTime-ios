@@ -49,7 +49,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var goToSaved = false
     var animationSize: CGFloat = 0.1
-    //
     var gotCurrentStatus = false
     
     @IBOutlet weak var titleLabel: UILabel!
@@ -69,6 +68,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var isUpdatingLocation = false
     
+    // This Method is loaded once in view controller life cycle. Its Called When all the view are loaded.
     override func viewDidLoad() {
         super.viewDidLoad()
         clearButton.isHidden = true
@@ -78,6 +78,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let checkedInFullMapNib = UINib(nibName: "CheckedInFullMapCell", bundle: nil)
         //        let batterySaverNib = UINib(nibName: "BatterySaverCell", bundle: nil)
         
+        // Register table that displays all punches for the past 30 days.
         homeTable.register(checkInNib, forCellReuseIdentifier: "CheckInCell")
         homeTable.register(historyNib, forCellReuseIdentifier: "HistoryCell")
         homeTable.register(checkInMapNib, forCellReuseIdentifier: "CheckInMapCell")
@@ -95,9 +96,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         //        getCompanyList() // commented
         
+        // Get the data we need for our tables.
         getPunchingHistory()
         
-        getEmployerMessages(clock: false)
+//        getEmployerMessages(clock: false)
                 
         saveButton.isHidden = true
         
@@ -122,12 +124,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         notificationCenter.addObserver(self, selector: #selector(appMovedToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
+    // Called everytime the app is opened (from a background state)
     @objc func appMovedToForeground(){
-        print("moved to foreground!");
-        print(JaniTime.parsingData.clockInData?.building_radius);
         updateLocation();
     }
     
+    // Called after the view is present on the user's screen.
     override func viewDidAppear(_ animated: Bool) {
         if JaniTime.user.client_company != "" {
             titleLabel.text = JaniTime.user.client_company
@@ -137,6 +139,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         dispatchedWarningNotification = false
     }
     
+    // Get all companies
     func getCompanyList() {
         api.callAPI(params: [:], APItype: .company_list, APIMethod: .get) { (message, status) in
             self.view.hideLoaderAnimation()
@@ -149,31 +152,33 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Call the api and get all messages assigned to currently signed in user.
     func getEmployerMessages(clock: Bool){
-        print("getemployer messages called")
         let params: [String : Int] = ["user_id": Int(JaniTime.user.user_id) ?? 0, "client_id": Int(JaniTime.user.client_id)!]
         
         api.callAPI(params: params, APItype: .messages, APIMethod: .post) { (message, status) in
 
+            print("MESSAGE: \(message)")
+            print("CLOCKING: \(clock)")
+            print("STATUS: \(status)")
+            
             if status {
-                print("Status true")
                 self.getLastMessage(message: message, clock: clock)
             } else {
                 // There's probably no messages from the company.
-                print("Status \(status)")
                 self.getLastMessage(message: message, clock: clock)
-                print("No messages from company. Carry on.")
             }
         }
     }
     
+    // Query the local storage and get last stored message.
     func getLastMessage(message: String, clock: Bool){
         if let lastmessage = JaniTime.userDefaults.string(forKey: "message"){
-            print("Last message was \(lastmessage)")
-            print("Message was \(message)")
-            print("Clock? \(clock)")
             if (message == "Please provide necessary data."){
+                
+                // Let the user clock in if there are no messages from their employer.
                 if clock {
+                    print("Message is \(message)")
                     goToCheckIn()
                 }
             }
@@ -183,16 +188,37 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 performSegue(withIdentifier: Constants.Segue.MESSAGES, sender: self)
             } else {
                 if clock {
+                    print("Last message is equal to saved message JAMES")
                     goToCheckIn()
                 } else {
                     self.saveLastMessage(message: lastmessage)
                 }
             }
         } else {
-            self.saveLastMessage(message: message)
-            if (clock) {
-                goToCheckIn()
+            print("No saved message in localstorage")
+            
+            // No last saved message and no messages from employer.
+            if (message == "Please provide necessary data.") {
+                
+                if (clock) {
+                    print("Clocking in.")
+                    goToCheckIn()
+                }
+                
+            } else {
+                // A new message has appeared.
+                
+                self.saveLastMessage(message: message)
+                
+                if (clock) {
+                    print("Clocking in.")
+//                    goToCheckIn()
+                    performSegue(withIdentifier: Constants.Segue.MESSAGES, sender: self)
+
+                }
             }
+            
+           
         }
     }
     
@@ -210,6 +236,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // The below sections are for structuring the tableview of the history component.
     func numberOfSections(in tableView: UITableView) -> Int {
         
         return 2
@@ -438,6 +465,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var lastUpdatedTime: Date? = nil
     
+    // Get the current time
     @objc func getTime() {
         if let timerCell = homeTable.cellForRow(at: IndexPath(row: 0, section: 0)) as? CheckInCell {
             let (hours, minutes, seconds, value) = JaniTime().timeAgoSinceDate(date: checkedInTime as NSDate, numericDates: false)
@@ -462,12 +490,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Clock in button logic.
     @IBAction func checkInCheckOutAct(_ sender: Any) {
         if !isTimerRunning {
-            print("Timer not running in check out/in")
             if currentLocation != nil {
                 // User has seen last employer message
-                print("Getting employermessages")
                 getEmployerMessages(clock: true)
             }
             else {
@@ -497,6 +524,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Change button to forgot to clock out if user is out of range of building radius.
     func setCheckInCheckOutButton() {
         if isTimerRunning {
             let _isUserInGeoFence = isUserInGeoFence().0 ?? true
@@ -508,6 +536,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Main timer handler for being clocked into a building.
     func handleTimer(timerStart: Bool = false, time: Date = Date()) {
         isTimerRunning = timerStart
         JaniTime.user.isTimerRunning = isTimerRunning
@@ -535,6 +564,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         setCheckInCheckOutButton()
     }
     
+    // Segue to clock in screen.
     func goToCheckIn() {
         //        let displayMessage = "Something went wrong. Please check your network and try again later."
         //
@@ -603,6 +633,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Main handler for clocking out of a building.
     func clockOut(isForced: Bool = false) {
         if !isUpdatingLocation {
             locationManager.startUpdatingLocation()
@@ -631,6 +662,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Get all clock history for the past 30 days.
     func getPunchingHistory() {
         let params: [String : Int] = ["user_id": Int(JaniTime.user.user_id) ?? 0, "client_id": Int(JaniTime.user.client_id)!]
         api.callAPI(params: params, APItype: .punchingHistory, APIMethod: .post) { (message, status) in
@@ -643,6 +675,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Prepare the loaded screen to segue to another screen during a user interaction.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let checkInVC = segue.destination as? DataEntryController {
             checkInVC.delegate = self
@@ -750,6 +783,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    // Get user's location based on what they select when launching the app.
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         let alert = UIAlertController(title: "Allow Always Access", message: "We need to be tracking your location in the background in order to clock you in and out of buildings, please enable \"Always\" location in your settings. Thank you.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Settings", style: UIAlertAction.Style.default, handler: { action in
@@ -788,6 +822,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.present(alert, animated: true, completion: nil)
         }
     }
+    
+    // Action handler for when a user saves a clockin
     @IBAction func savedButtonAct(_ sender: Any) {
         if JaniTime.user.client_id != "" {
             getSavedCheckIn = true
@@ -798,6 +834,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
+    // Check to see if user is clocked into a building / if they are outside the building's radius.
     func getCurrentStatus(withAnimation: Bool = true) {
         if currentLocation != nil {
             let params: [String : Any] = ["client_id" : Int(JaniTime.user.client_id) ?? 0, "building_id" : Int(JaniTime.user.building_id) ?? 0, "employee_id": Int(JaniTime.user.user_id) ?? 0, "latitude": Float(currentLocation!.coordinate.latitude), "longitude": Float(currentLocation!.coordinate.longitude)]
@@ -821,7 +858,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
     }
     
-    
+    // Show alert popup when a building is out of range or a user potentially forgot to clock out.
     func showAlert(message: String, title: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
@@ -831,6 +868,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.present(alert, animated: true, completion: nil)
     }
     
+    // Update user's current location
     func updateLocation() {
         // Was already commented out, why?
         //        if switchingCount > 2 {
@@ -876,12 +914,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // Load clockpunch table and show most recent punch.
     func scrollToFirstRow() {
         let indexPath = IndexPath(row: 0, section: 0)
         self.homeTable.scrollToRow(at: indexPath, at: .top, animated: true)
     }
     
-    
+    // ?
     func shouldSave(data: Preferences) -> Bool {
         let realm = try! Realm()
         let objects = realm.objects(Preferences.self)
@@ -893,6 +932,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return true
     }
     
+    // ?
     func shouldOverWrite(data: Preferences) -> Preferences? {
         let realm = try! Realm()
         let objects = realm.objects(Preferences.self)
@@ -970,9 +1010,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     
-    /*
-     Check if a user's location is actually within the radius of the selected Building.
-     */
+    
+    // Check if a user's location is actually within the radius of the selected Building.
     func isUserInGeoFence() -> (Bool?, String?) {
         
         if !JaniTime.user.employeeAutoClockOut && false {

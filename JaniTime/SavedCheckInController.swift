@@ -38,6 +38,7 @@ class SavedCheckInController: UIViewController, UITableViewDelegate, UITableView
     
     let managerTypes = ["General Manager", "Training", "Filling In"]
     
+    // This Method is loaded once in view controller life cycle. Its Called When all the view are loaded.
     override func viewDidLoad() {
         super.viewDidLoad()
         let data = realm.objects(Preferences.self)

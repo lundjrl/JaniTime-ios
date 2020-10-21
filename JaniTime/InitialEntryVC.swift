@@ -23,6 +23,7 @@ class InitialEntryVC: UIViewController, ResponseProtocol {
     
     var animationSize: CGFloat = 0.1
     
+    // This Method is loaded once in view controller life cycle. Its Called When all the view are loaded.
     override func viewDidLoad() {
         super.viewDidLoad()
         employeeIdField.delegate = self

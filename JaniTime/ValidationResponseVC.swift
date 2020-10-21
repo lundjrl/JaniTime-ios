@@ -38,6 +38,7 @@ class ValidationResponseVC: UIViewController {
     
     @IBOutlet weak var errorView: UIView!
     
+    // This Method is loaded once in view controller life cycle. Its Called When all the view are loaded.
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -55,6 +56,7 @@ class ValidationResponseVC: UIViewController {
         }
     }
     
+    // Called after the view is present on the user's screen.
     override func viewDidAppear(_ animated: Bool) {
         Logger.print(pageMessage)
         responseMessage.text = pageMessage
